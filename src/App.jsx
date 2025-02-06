@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
 
-          {/* Protected Dashboard Route */}
+          {/* Protected Route */}
           <Route element={<ProtectedRoute />}>
             <Route element={<AppLayout />}>
               {/* <Route path="/dashboard" element={<Dashboard />} /> */}
