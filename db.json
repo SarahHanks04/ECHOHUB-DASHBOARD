@@ -98,11 +98,7 @@
           "type": "dropdown",
           "placeholder": "",
           "required": true,
-          "options": [
-            "Facilitator",
-            "Product",
-            "Teaching"
-          ],
+          "options": ["Facilitator", "Product", "Teaching"],
           "maxRating": 5,
           "ratingValue": 0
         },
@@ -112,11 +108,7 @@
           "type": "dropdown",
           "placeholder": "",
           "required": true,
-          "options": [
-            "Internet",
-            "Facility",
-            "The Desk"
-          ],
+          "options": ["Internet", "Facility", "The Desk"],
           "maxRating": 5,
           "ratingValue": 0
         },
@@ -362,9 +354,7 @@
           "id": "1738327227244",
           "label": "Nice work, Sarah!",
           "type": "checkbox",
-          "value": [
-            "tea"
-          ]
+          "value": ["tea"]
         },
         {
           "id": "1738327227245",
@@ -571,9 +561,7 @@
           "id": "1738327227244",
           "label": "Nice work, Sarah!",
           "type": "checkbox",
-          "value": [
-            "yea"
-          ]
+          "value": ["yea"]
         },
         {
           "id": "1738327227243",
@@ -690,9 +678,7 @@
           "id": "1738327227244",
           "label": "Nice work, Sarah!",
           "type": "checkbox",
-          "value": [
-            "yea"
-          ]
+          "value": ["yea"]
         },
         {
           "id": "1738327227243",

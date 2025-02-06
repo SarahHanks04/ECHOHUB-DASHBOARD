@@ -220,9 +220,12 @@ export const useSubmitResponse = () => {
 
 // Fetch all user responses
 export const useFetchResponses = () => {
-  return useQuery(["responses"], async () => {
-    const response = await axios.get(`${BASE_URL}/responses`);
-    return response.data;
+  return useQuery({
+    queryKey: ["responses"],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/responses`);
+      return response.data;
+    },
   });
 };
 
@@ -233,7 +236,7 @@ export const useFetchResponsesById = (id) => {
       const response = await axios.get(`${BASE_URL}/responses?id=${id}`);
       return response.data.map((resp) => ({
         ...resp,
-        formattedDate: new Date(resp.submissionDate).toLocaleString(), // Format date for UI display
+        formattedDate: new Date(resp.submissionDate).toLocaleString(), 
       }));
     },
     enabled: !!id,
