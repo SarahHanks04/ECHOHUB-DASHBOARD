@@ -13,6 +13,7 @@ function ComplaintTable() {
 
   if (isLoading) return <div>Loading...</div>;
 
+  //  FILTER COMPLAINT
   const complaints =
     responses
       ?.filter((response) => response.formType === "complaint")
@@ -20,14 +21,14 @@ function ComplaintTable() {
         (a, b) => new Date(b.submissionDate) - new Date(a.submissionDate)
       ) || [];
 
-  // Helper function to format date with ordinal
+  // DATE FORMAT
   const formatDateWithOrdinal = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
     const month = date.toLocaleString("en-US", { month: "long" });
     const year = date.getFullYear();
 
-    // Function to get the ordinal suffix
+    // DAY SUFFIX
     const getOrdinalSuffix = (day) => {
       if (day > 3 && day < 21) return "th";
       switch (day % 10) {
