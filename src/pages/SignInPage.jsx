@@ -154,7 +154,10 @@ const SignInPage = () => {
 
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-          <Button className="w-full mb-4 text-bulb-blue bg-bulb-yellow rounded-[18px]" onClick={handleAuth}>
+          <Button
+            className="w-full mb-4 text-bulb-blue bg-bulb-yellow rounded-[18px]"
+            onClick={handleAuth}
+          >
             {isLogin ? "Login" : "Sign Up"}
           </Button>
 

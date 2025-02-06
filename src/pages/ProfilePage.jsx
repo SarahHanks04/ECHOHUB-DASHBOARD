@@ -70,13 +70,13 @@ const ProfilePage = () => {
 
       <motion.div className="flex space-x-4 px-4">
         <button
-          className="bg-[#FF6D06] text-white text-[13px] px-4 py-2 rounded"
+          className="bg-bulb-blue text-white text-[13px] px-4 py-2 rounded"
           onClick={handleSaveChanges}
         >
           Save Changes
         </button>
         <button
-          className="bg-[#C7C6C6] text-[#4A4848] text-[13px] px-6 py-2 rounded"
+          className="bg-bulb-yellow text-[#4A4848] text-[13px] px-6 py-2 rounded"
           onClick={handleClose}
         >
           Close
