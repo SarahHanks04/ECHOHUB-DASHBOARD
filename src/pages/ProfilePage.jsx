@@ -205,13 +205,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import ProfileImage from "@/components/ProfileComp/ProfileImage";
+import EditableSection from "@/components/ProfileComp/EditableSection";
 import {
   saveProfileToBackend,
   updateLastUpdated,
-} from "../../redux/Slices/ProfileSlice";
-import ProfileImage from "../../Component/ProfileComp/ProfileImage";
-import EditableSection from "../../Component/ProfileComp/EditableSection";
-import { useNavigate } from "react-router-dom";
+} from "@/redux/Slices/ProfileSlice";
 
 const ProfilePage = () => {
   const profile = useSelector((state) => state.profile);
@@ -219,7 +219,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   const handleClose = () => {
-    navigate(-1); // Navigates to the previous page
+    navigate(-1);
   };
 
   const handleSaveChanges = async () => {

@@ -1,10 +1,16 @@
 import { useFetchResponses } from "@/api/ResponseApi";
 import { FaBatteryFull, FaCheckCircle, FaClock } from "react-icons/fa";
+import Spinner from "../Spinner/Spinner";
 
 function FeedbackMetrics() {
   const { data: responses, isLoading } = useFetchResponses();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
 
   // Filter for only feedback form submissions
   const feedbacks =

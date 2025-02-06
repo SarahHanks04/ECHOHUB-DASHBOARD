@@ -1,7 +1,7 @@
 import { AuthContext } from "@/context/AuthenticationContext";
+import Spinner from "@/utils/Spinner/Spinner";
 import React, { useContext, useState, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-
 
 const ProtectedRoute = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -12,14 +12,17 @@ const ProtectedRoute = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
   }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoute;
-
 
 // import { Navigate, Outlet } from "react-router-dom";
 

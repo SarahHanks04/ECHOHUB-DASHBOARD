@@ -63,7 +63,7 @@ const LoginPage = () => {
       console.log("Data from API:", data);
 
       if (isLogin) {
-        // Login logic: Check if the user exists
+        // Login logic
         if (data.length > 0) {
           localStorage.setItem("authToken", JSON.stringify(data[0]));
           navigate("/dashboard");
@@ -71,7 +71,7 @@ const LoginPage = () => {
           setError("Invalid email or password.");
         }
       } else {
-        // Signup logic: Handle success or failure
+        // Signup logic
         if (response.ok) {
           localStorage.setItem("authToken", JSON.stringify(data));
           navigate("/dashboard");

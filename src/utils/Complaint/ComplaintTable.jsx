@@ -7,11 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Spinner from "../Spinner/Spinner";
 
 function ComplaintTable() {
   const { data: responses, isLoading } = useFetchResponses();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><Spinner /></div>;
 
   //  FILTER COMPLAINT
   const complaints =

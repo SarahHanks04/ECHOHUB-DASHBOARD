@@ -7,11 +7,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Spinner from "../Spinner/Spinner";
 
 function FeedbackTable() {
   const { data: responses, isLoading } = useFetchResponses();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
 
   // FILTER FEEDBACK
   const feedbacks =
