@@ -8,14 +8,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-function ComplaintTable() {
+function FeedbackTable() {
   const { data: responses, isLoading } = useFetchResponses();
 
   if (isLoading) return <div>Loading...</div>;
 
-  const complaints =
+  // Filter for only feedback form submissions
+  const feedbacks =
     responses
-      ?.filter((response) => response.formType === "complaint")
+      ?.filter((response) => response.formType === "feedback")
       .sort(
         (a, b) => new Date(b.submissionDate) - new Date(a.submissionDate)
       ) || [];
@@ -47,7 +48,7 @@ function ComplaintTable() {
 
   return (
     <section className="overflow-x-auto px-5 sm:ml-0 lg:ml-56">
-      <div className="overflow-x-auto rounded-[8px]">
+      <div className="overflow-x-auto rounded-lg">
         <div className="shadow border-b border-gray-200 overflow-x-auto sm:overflow-x-visible">
           <Table className="min-w-full divide-y divide-gray-200 rounded-lg">
             <TableHeader className="bg-gray-50">
@@ -56,7 +57,7 @@ function ComplaintTable() {
                   ID
                 </TableHead>
                 <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Description
+                  Feedback
                 </TableHead>
                 <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Date Submitted
@@ -70,26 +71,26 @@ function ComplaintTable() {
               </TableRow>
             </TableHeader>
             <TableBody className="bg-white divide-y divide-gray-200">
-              {complaints.map((complaint) => {
-                const complaintMessages = complaint.data
+              {feedbacks.map((feedback) => {
+                const feedbackMessages = feedback.data
                   .filter((d) => d.type === "textarea")
                   .map((d) => d.value)
                   .join(", ");
-                const description = complaintMessages || "No message provided";
+                const feedbackText = feedbackMessages || "No feedback provided";
 
                 return (
-                  <TableRow key={complaint.id}>
+                  <TableRow key={feedback.id}>
                     <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {complaint.id}
+                      {feedback.id}
                     </TableCell>
                     <TableCell className="px-6 py-4 text-sm text-gray-500">
-                      {description}
+                      {feedbackText}
                     </TableCell>
                     <TableCell className="px-6 py-4 text-sm text-gray-500">
-                      {formatDateWithOrdinal(complaint.submissionDate)}
+                      {formatDateWithOrdinal(feedback.submissionDate)}
                     </TableCell>
                     <TableCell className="px-6 py-4 text-sm text-gray-500">
-                      {complaint.status}
+                      {feedback.status}
                     </TableCell>
                     <TableCell className="px-6 py-4 text-sm font-medium">
                       <a
@@ -110,4 +111,4 @@ function ComplaintTable() {
   );
 }
 
-export default ComplaintTable;
+export default FeedbackTable;

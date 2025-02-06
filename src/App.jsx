@@ -5,6 +5,7 @@ import AppLayout from "./components/Layout/AppLayout";
 import { AuthProvider } from "./context/AuthenticationContext";
 import ProtectedRoute from "./pages/Authentication/ProtectedRoute";
 import ComplaintPage from "./pages/ComplaintPage";
+import FeedbackPage from "./pages/FeedbackPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route element={<AppLayout />}>
               {/* <Route path="/dashboard" element={<Dashboard />} /> */}
               <Route path="/complaints" element={<ComplaintPage />} />
+              <Route path="/feedbacks" element={<FeedbackPage />} />
               {/* Default route */}
               <Route path="*" element={<PageNotFound />} />
             </Route>
