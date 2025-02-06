@@ -34,7 +34,7 @@
 //   const lastMenuItems = [
 //     { to: "/profile", label: "Settings", icon: SettingsIcon },
 //     {
-//       to: "/signIn", 
+//       to: "/signIn",
 //       label: "Logout",
 //       icon: LogoutIcon,
 //       onClick: handleLogout,
@@ -146,6 +146,10 @@ import DashboardIcon from "../../assets/Icons/DashboardIcon.svg";
 import ComplaintIcon from "../../assets/Icons/Complaint.svg";
 import FeedbackIcon from "../../assets/Icons/Feedback.svg";
 import SettingsIcon from "../../assets/Icons/Settingsicon.svg";
+import DashboardColored from "../../assets/Icons/DashboardColored.svg";
+import ComplaintColored from "../../assets/Icons/ComplaintColored.svg";
+import FeedbackColored from "../../assets/Icons/FeedbackColored.svg";
+import SettingColored from "../../assets/Icons/SettingColored.svg";
 import LogoutIcon from "../../assets/Icons/LogoutIcon.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HiOutlineMenu } from "react-icons/hi";
@@ -169,15 +173,35 @@ const Sidebar = () => {
   };
 
   const menuItems = [
-    { to: "/dashboard", label: "Dashboard", icon: DashboardIcon, activeIcon: DashboardColored },
-    { to: "/complaints", label: "Complaints", icon: ComplaintIcon, activeIcon: ComplaintIconColored },
-    { to: "/feedbacks", label: "Feedbacks", icon: FeedbackIcon, activeIcon: FeedbackColored },
+    {
+      to: "/dashboard",
+      label: "Dashboard",
+      icon: DashboardIcon,
+      activeIcon: DashboardColored,
+    },
+    {
+      to: "/complaints",
+      label: "Complaints",
+      icon: ComplaintIcon,
+      activeIcon: ComplaintColored,
+    },
+    {
+      to: "/feedbacks",
+      label: "Feedbacks",
+      icon: FeedbackIcon,
+      activeIcon: FeedbackColored,
+    },
   ];
 
   const lastMenuItems = [
-    { to: "/profile", label: "Settings", icon: SettingsIcon },
     {
-      to: "/signIn", 
+      to: "/profile",
+      label: "Settings",
+      icon: SettingsIcon,
+      activeIcon: SettingColored,
+    },
+    {
+      to: "/signIn",
       label: "Logout",
       icon: LogoutIcon,
       onClick: handleLogout,
@@ -238,18 +262,32 @@ const Sidebar = () => {
               <motion.li key={index} variants={itemVariants}>
                 <button
                   className={`flex items-center w-full p-2 rounded-md hover:bg-gray-800 ${
-                    window.location.pathname === item.to
-                      ? "bg-gray-800 text-[#FDBF17]"
-                      : ""
+                    location.pathname === item.to ? "bg-gray-800" : ""
                   }`}
                   onClick={() => handleNavigation(item.to)}
                 >
-                  <img
+                  {/* <img
                     src={item.icon}
                     alt={`${item.label} icon`}
                     className="w-5 h-5 mr-3"
+                  /> */}
+                  {/* <span className="text-base">{item.label}</span> */}
+                  <img
+                    src={
+                      location.pathname === item.to
+                        ? itemVariants.activeIcon
+                        : item.icon
+                    }
+                    alt={`${item.label} icon`}
+                    className="w-5 h-5 mr-3"
                   />
-                  <span className="text-base">{item.label}</span>
+                  <span
+                    className={`text-base ${
+                      location.pathname === item.to ? "text-bulb-yellow" : ""
+                    }`}
+                  >
+                    {item.label}
+                  </span>
                 </button>
               </motion.li>
             ))}
@@ -262,15 +300,31 @@ const Sidebar = () => {
                   <button
                     className={`flex items-center w-full p-2 rounded-md hover:bg-gray-800 ${
                       item.to === null && "text-[#FAF4F4]"
-                    }`}
+                    } ${location.pathname === item.to ? "bg-gray-800" : ""}`}
                     onClick={item.onClick || (() => handleNavigation(item.to))}
                   >
-                    <img
+                    {/* <img
                       src={item.icon}
                       alt={`${item.label} icon`}
                       className="w-5 h-5 mr-3"
                     />
-                    <span className="text-base">{item.label}</span>
+                    <span className="text-base">{item.label}</span> */}
+                    <img
+                      src={
+                        location.pathname === item.to
+                          ? item.activeIcon
+                          : item.icon
+                      }
+                      alt={`${item.label} icon`}
+                      className="w-5 h-5 mr-3"
+                    />
+                    <span
+                      className={`text-base ${
+                        location.pathname === item.to ? "text-yellow-400" : ""
+                      }`}
+                    >
+                      {item.label}
+                    </span>
                   </button>
                 </motion.li>
               ))}
