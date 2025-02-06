@@ -80,7 +80,7 @@ function ComplaintTable() {
                 return (
                   <TableRow key={complaint.id}>
                     <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {complaint.id}
+                      #{complaint.id}
                     </TableCell>
                     <TableCell className="px-6 py-4 text-sm text-gray-500">
                       {description}
