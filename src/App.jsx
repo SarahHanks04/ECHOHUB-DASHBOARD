@@ -7,6 +7,7 @@ import ProtectedRoute from "./hook/ProtectedRoute";
 import ComplaintPage from "./pages/ComplaintPage";
 import FeedbackPage from "./pages/FeedbackPage";
 import ProfilePage from "./pages/ProfilePage";
+import Editor from "./pages/Editor";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/complaints" element={<ComplaintPage />} />
               <Route path="/feedbacks" element={<FeedbackPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/editor" element={<Editor />} />
               {/* Default route */}
               <Route path="*" element={<PageNotFound />} />
             </Route>

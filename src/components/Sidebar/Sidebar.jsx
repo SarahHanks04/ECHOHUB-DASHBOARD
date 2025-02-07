@@ -9,6 +9,7 @@ import ComplaintColored from "../../assets/Icons/ComplaintColored.svg";
 import FeedbackColored from "../../assets/Icons/FeedbackColored.svg";
 import SettingColored from "../../assets/Icons/SettingColored.svg";
 import LogoutIcon from "../../assets/Icons/LogoutIcon.svg";
+import EditIcon from "../../assets/Icons/Edit.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HiOutlineMenu } from "react-icons/hi";
 import { motion } from "framer-motion";
@@ -47,6 +48,12 @@ const Sidebar = () => {
       label: "Feedbacks",
       icon: FeedbackIcon,
       activeIcon: FeedbackColored,
+    },
+    {
+      to: "/editor",
+      label: "Editor",
+      icon: EditIcon,
+      activeIcon: EditIcon,
     },
   ];
 
