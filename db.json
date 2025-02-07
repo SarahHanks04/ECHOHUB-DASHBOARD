@@ -824,6 +824,21 @@
       "createdAt": "2025-02-03T12:00:00Z"
     }
   ],
+  "profile": [
+    {
+      "id": "08aa",
+      "profileImage": "User2",
+      "lastUpdated": "2/7/2025, 12:52:25 AM",
+      "personalInfo": {
+        "firstName": "Jemilat",
+        "lastName": "Obosi",
+        "email": "qhehgujqgy@nefr",
+        "phoneNumber": "08112245421",
+        "username": "",
+        "role": "Program Manager"
+      }
+    }
+  ],
   "signIn": [
     {
       "id": "1",

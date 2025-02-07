@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const saveProfileToBackend = createAsyncThunk(
   "profile/saveProfileToBackend",
   async (profileData) => {
-    const response = await fetch("http://localhost:4000/profile", {
+    const response = await fetch("http://localhost:5000/profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

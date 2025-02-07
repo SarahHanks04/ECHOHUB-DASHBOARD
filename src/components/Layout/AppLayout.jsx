@@ -9,7 +9,7 @@ const AppLayout = () => {
       <Sidebar />
       <div className="flex flex-col flex-1">
         <Navbar />
-        <div className="flex-1 pt-32 lg:pt-20 p-4 md:p-5 overflow-auto bg-[#EAEAEA]">
+        <div className="flex-1 pt-10 lg:pt-20 p-4 md:p-5 overflow-auto bg-[#EAEAEA]">
           <Outlet />
         </div>
       </div>

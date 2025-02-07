@@ -10,7 +10,7 @@ const Navbar = () => {
   const routeTitles = {
     "/dashboard": "Overview",
     "/complaints": "Complaints",
-    "/feedback": "Feedback",
+    "/feedbacks": "Feedback",
     "/settings": "Settings",
     "/profile": "Profile Info",
   };
@@ -26,19 +26,19 @@ const Navbar = () => {
         </h2>
       </div>
 
-      {/* Right Section: Search, Notification, and Profile */}
-      <div className="flex items-center space-x-4 md:space-x-6">
-        {/* SearchBar: Hidden on small screens */}
+      {/* Right Section*/}
+      <div className="flex items-center space-x-4 md:space-x-6 sm:pr-20 lg:pr-10 overflow-hidden">
+        {/* SearchBar */}
         <div className="hidden md:block">
           <SearchBar />
         </div>
 
-        {/* Notification: Shown on medium screens */}
+        {/* Notification */}
         <div className="hidden md:block">
           <Notification />
         </div>
 
-        {/* Profile Section: Always visible */}
+        {/* Profile Section */}
         <ProfileSection />
       </div>
     </nav>

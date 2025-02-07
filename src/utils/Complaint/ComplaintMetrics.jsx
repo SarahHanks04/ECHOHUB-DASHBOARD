@@ -23,7 +23,7 @@ function ComplaintMetrics() {
   const percentage = (count) => ((count / totalComplaints) * 100).toFixed(1);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-[1rem] justify-start items-start p-4 mt-20 sm:ml-0 lg:ml-56">
+    <div className="flex flex-col sm:flex-row gap-[1rem] justify-start items-start p-4 mt-10 sm:ml-0 lg:ml-56">
       {/* Total Complaints */}
       <div className="bg-white shadow-lg rounded-lg p-4 w-full sm:w-1/3">
         <div className="flex items-center justify-between w-full mb-4">

@@ -29,7 +29,7 @@ const ProfilePage = () => {
 
   return (
     <motion.section
-      className=" pt-[0.5rem] max-w-5xl lg:ml-56 overflow-x-hidden p-2 space-y-7"
+      className="pt-[0.5rem] max-w-5xl lg:ml-56 overflow-x-hidden p-2 space-y-7"
       initial="hidden"
       animate="visible"
     >

@@ -1,24 +1,3 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-// import Profile from "../../assets/Images/Profile.png";
-
-// const ProfileSection = () => {
-//   return (
-//     <div className="flex items-center justify-between space-x-14 pr-14">
-//       {/* Separator */}
-//       <div className="h-12 w-[1px] bg-[#BDBDBD] hidden md:block"></div>
-//       <Link to="/profile" className="relative">
-//         <img
-//           src={Profile}
-//           alt="Profile"
-//           className="w-10 h-10 rounded-full border border-gray-300"
-//         />
-//       </Link>
-//     </div>
-//   );
-// };
-
-// export default ProfileSection;
 import React from "react";
 import { useSelector } from "react-redux";
 import { User2 } from "lucide-react";

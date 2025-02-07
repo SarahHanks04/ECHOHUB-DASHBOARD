@@ -53,7 +53,7 @@ function FeedbackTable() {
   };
 
   return (
-    <section className="overflow-x-auto px-5 sm:ml-0 lg:ml-56">
+    <section className="overflow-x-auto px-5 mt-14 sm:ml-0 lg:ml-56">
       <div className="overflow-x-auto rounded-lg">
         <div className="shadow border-b border-gray-200 overflow-x-auto sm:overflow-x-visible">
           <Table className="min-w-full divide-y divide-gray-200 rounded-lg">
