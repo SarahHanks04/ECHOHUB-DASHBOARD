@@ -1,13 +1,13 @@
+import { useFetchFormById, useMutateFormEvent } from "@/api/ResponseApi";
+import FieldEditor from "@/utils/FieldEditor";
+import Notification from "@/utils/Notification";
+import Spinner from "@/utils/Spinner";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Notification from "../Notification/Notification";
-import FieldEditor from "../Editor/FieldEditor";
-import Spinner from "../Spinner/Spinner";
-import { useMutateFormEvent, useFetchFormById } from "@/api/ResponseApi";
 
-const AdminFormView = () => {
+const AdminComplaintView = () => {
   const { formId } = useParams();
-//   console.log("AdminComplaintView received formId:", formId);
+  console.log("AdminComplaintView received formId:", formId);
 
   const { data: form, isLoading, error, refetch } = useFetchFormById(formId);
   const { mutate: saveForm } = useMutateFormEvent();
@@ -19,7 +19,7 @@ const AdminFormView = () => {
 
   useEffect(() => {
     if (error) {
-      setMessage("Failed to fetch form data");
+      setMessage("Failed to fetch complaint form data");
     }
   }, [error]);
 
@@ -28,13 +28,13 @@ const AdminFormView = () => {
   if (!form || !form.fields) {
     return (
       <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg text-center">
-        <Notification message="Form not found" type="error" />
+        <Notification message="Complaint form not found" type="error" />
       </div>
     );
   }
 
   const handleSave = (updatedFields) => {
-    console.log("Saving form with fields:", updatedFields);
+    console.log("Saving complaint form with fields:", updatedFields);
     if (!updatedFields || updatedFields.length === 0) {
       setMessage("Error: No fields to save.");
       return;
@@ -43,7 +43,7 @@ const AdminFormView = () => {
       { id: formId, data: { ...form, fields: updatedFields } },
       {
         onSuccess: () => {
-          setMessage("Form updated successfully!");
+          setMessage("Complaint form updated successfully!");
           setTimeout(() => refetch(), 500);
         },
       }
@@ -60,7 +60,7 @@ const AdminFormView = () => {
         />
       )}
       <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-6">
-        Admin Editor
+        Admin Complaint Editor
       </h1>
       {form?.fields ? (
         <FieldEditor fields={form.fields} onSave={handleSave} />
@@ -71,4 +71,4 @@ const AdminFormView = () => {
   );
 };
 
-export default AdminFormView;
+export default AdminComplaintView;

@@ -1,230 +1,113 @@
-import React, { useRef } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { FaStar } from "react-icons/fa";
-import { motion } from "framer-motion";
-import ErrorText from "../Error/ErrorText";
+// import React, { useEffect } from "react";
+// import { useFetchFormById, useMutateFormEvent } from "@/api/ResponseApi";
+// import { BASE_URL } from "@/api/api";
+// import { useParams } from "react-router-dom";
+// import { toast } from "react-toastify";
+// import FieldEditor from "./FieldEditor";
+// import { useQueryClient } from "@tanstack/react-query";
 
-const FormRenderer = ({ formFields, onSubmit, isSubmitting }) => {
-  if (!formFields || formFields.length === 0) {
-    console.error("Form fields are missing or empty:", formFields);
-    return <div className="text-center text-gray-500">No fields to render</div>;
-  }
+// const FormEditor = () => {
+//   const { id } = useParams();
+//   const params = useParams();
+//   console.log("All params:", params);
+//   console.log("Fetching form with ID:", id);
+//   console.log("Constructed URL:", `${BASE_URL}/formEvents/${id}`);
+//   const { data: form, isLoading, isError } = useFetchFormById(id);
+//   const { mutate: updateForm } = useMutateFormEvent();
 
-  const validationSchema = yup.object().shape(
-    formFields.reduce((schema, field) => {
-      if (!field.id) return schema;
-      if (field.type === "checkbox") {
-        schema[field.id] = yup
-          .array()
-          .min(1, "At least one option must be selected")
-          .required("This field is required");
-      } else if (field.type === "rating") {
-        schema[field.id] = yup.number().required("This field is required");
-      } else if (field.type === "number") {
-        schema[field.id] = yup
-          .number()
-          .typeError("Please enter a valid number")
-          .required("This field is required");
-      } else if (field.type === "email") {
-        schema[field.id] = yup
-          .string()
-          .email("Please enter a valid email")
-          .required("This field is required");
-      } else {
-        schema[field.id] = field.required
-          ? yup.string().required("This field is required")
-          : yup.string();
+//   if (isLoading) return <div>Loading form...</div>;
+//   if (isError) return <div>Error loading form</div>;
+//   if (!form) return <div>Form not found</div>;
+
+// //   useEffect(() => {
+// //     console.log("Form data:", form);
+// //     console.log("Is loading:", isLoading);
+// //     console.log("Is error:", isError);
+// //   }, [form, isLoading, isError]);
+
+//   const handleSaveFields = (updatedFields) => {
+//     // Prepare the data to send back to the server
+//     const updatedForm = {
+//       ...form, // Keep other form properties unchanged
+//       fields: updatedFields, // Update only the fields
+//     };
+
+//     updateForm(
+//       { id, data: updatedForm },
+//       {
+//         onSuccess: () => {
+//           toast.success("Form updated successfully!");
+//           // Optionally, you might want to refresh the form data here if needed
+//           useQueryClient().invalidateQueries(['form', id]);
+//         },
+//         onError: (error) => {
+//           toast.error("Error updating form: " + error.message);
+//         },
+//       }
+//     );
+//   };
+
+//   return (
+//     <div>
+//       <FieldEditor fields={form.fields} onSave={handleSaveFields} />
+
+//     </div>
+//   );
+// };
+
+// export default FormEditor;
+
+import React, { useEffect } from "react";
+import { useFetchFormById, useMutateFormEvent } from "@/api/ResponseApi";
+import { BASE_URL } from "@/api/api";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import FieldEditor from "./FieldEditor";
+import { useQueryClient } from "@tanstack/react-query";
+
+const FormEditor = () => {
+  const { formId } = useParams(); // Changed from id to formId
+  const params = useParams();
+  console.log("All params:", params);
+  console.log("Fetching form with formId:", formId); // Changed log message
+  console.log("Constructed URL:", `${BASE_URL}/formEvents/${formId}`); // Changed URL construction
+
+  // Assuming useFetchFormById can handle 'formId' instead of 'id'
+  const { data: form, isLoading, isError } = useFetchFormById(formId);
+
+  const { mutate: updateForm } = useMutateFormEvent();
+
+  if (isLoading) return <div>Loading form...</div>;
+  if (isError) return <div>Error loading form</div>;
+  if (!form) return <div>Form not found</div>;
+
+  const handleSaveFields = (updatedFields) => {
+    // Prepare the data to send back to the server
+    const updatedForm = {
+      ...form,
+      fields: updatedFields,
+    };
+
+    updateForm(
+      { formId, data: updatedForm }, // Changed from id to formId
+      {
+        onSuccess: () => {
+          toast.success("Form updated successfully!");
+          const queryClient = useQueryClient();
+          queryClient.invalidateQueries(["form", formId]); // Changed from id to formId
+        },
+        onError: (error) => {
+          toast.error("Error updating form: " + error.message);
+        },
       }
-      return schema;
-    }, {})
-  );
-
-  const {
-    handleSubmit,
-    control,
-    formState: { errors, touchedFields },
-    reset,
-  } = useForm({ resolver: yupResolver(validationSchema), mode: "onBlur" });
+    );
+  };
 
   return (
-    <form
-      onSubmit={handleSubmit((data) => onSubmit(data, reset))}
-      className="w-full mx-auto p-8 space-y-6 bg-bulb-lightBlue dark:text-bulb-white dark:bg-bulb-blue"
-    >
-      {formFields.map((field, index) => {
-        const ref = useRef(null);
-        return (
-          <motion.div
-            key={field.id}
-            ref={ref}
-            className="w-full space-y-2"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-          >
-            <div className="flex gap-4">
-              <span className="font-extrabold text-[18px] dark:text-bulb-white mr-2">
-                {index + 1}.
-              </span>
-              <div className="w-full mb-3 text-[#29292A]">
-                <label className="block font-semibold text-[18px] text-[#29292A] dark:text-bulb-white mb-5">
-                  {field.label}
-                </label>
-                <Controller
-                  name={field.id}
-                  control={control}
-                  render={({ field: { onChange, value, onBlur } }) => (
-                    <>
-                      {field.type === "text" ||
-                      field.type === "email" ||
-                      field.type === "number" ? (
-                        <input
-                          type={field.type}
-                          value={value || ""}
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          placeholder={field.placeholder}
-                          className={`w-full px-3 py-3 border rounded-[10px] focus:outline-none transition-all ${
-                            errors[field.id]
-                              ? "border-red-500"
-                              : touchedFields[field.id] && !errors[field.id]
-                              ? "border-green-500"
-                              : "border-gray-300"
-                          }`}
-                        />
-                      ) : field.type === "textarea" ? (
-                        <textarea
-                          value={value || ""}
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          placeholder={field.placeholder}
-                          className={`w-full px-3 py-2 border rounded-[10px] focus:outline-none transition-all ${
-                            errors[field.id]
-                              ? "border-red-500"
-                              : touchedFields[field.id] && !errors[field.id]
-                              ? "border-green-500"
-                              : "border-gray-300"
-                          }`}
-                          rows={4}
-                        />
-                      ) : field.type === "radio" ? (
-                        <div className="space-y-6">
-                          {field.options.map((option, index) => (
-                            <label
-                              key={index}
-                              className="flex items-center text-[17px] space-x-4 dark:text-bulb-white text-[#29292A]"
-                            >
-                              <input
-                                type="radio"
-                                value={option}
-                                checked={value === option}
-                                onChange={onChange}
-                                className="h-5 w-5"
-                              />
-                              <span>{option}</span>
-                            </label>
-                          ))}
-                        </div>
-                      ) : field.type === "checkbox" ? (
-                        <div className="space-y-6 text-[#29292A]">
-                          {field.options.map((option, index) => (
-                            <label
-                              key={index}
-                              className="flex items-center text-[17px] dark:text-bulb-white space-x-4 text-[#29292A]"
-                            >
-                              <input
-                                type="checkbox"
-                                value={option}
-                                checked={(value || []).includes(option)}
-                                onChange={(e) => {
-                                  const isChecked = e.target.checked;
-                                  onChange(
-                                    isChecked
-                                      ? [...(value || []), option]
-                                      : value?.filter((v) => v !== option)
-                                  );
-                                }}
-                                className="h-5 w-5"
-                              />
-                              <span>{option}</span>
-                            </label>
-                          ))}
-                        </div>
-                      ) : field.type === "dropdown" ? (
-                        <select
-                          value={value || ""}
-                          onChange={onChange}
-                          className="w-full px-4 py-4 text-[#29292A] rounded-[10px] border focus:outline-none"
-                        >
-                          <option
-                            className="dark:text-bulb-white text-[17px]"
-                            value=""
-                          >
-                            Select an option
-                          </option>
-                          {field.options.map((option, index) => (
-                            <option key={index} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      ) : field.type === "rating" ? (
-                        <div className="flex space-x-6">
-                          {[...Array(5)].map((_, index) => {
-                            const ratingValue = index + 1;
-                            return (
-                              <label
-                                key={ratingValue}
-                                className="cursor-pointer text-[17px] text-[#29292A] dark:text-bulb-white"
-                              >
-                                <input
-                                  type="radio"
-                                  value={ratingValue}
-                                  checked={value === ratingValue}
-                                  onChange={() => onChange(ratingValue)}
-                                  className="hidden"
-                                />
-                                <FaStar
-                                  size={28}
-                                  color={
-                                    ratingValue <= value ? "#FDBF17" : "#E4E5E9"
-                                  }
-                                />
-                              </label>
-                            );
-                          })}
-                        </div>
-                      ) : null}
-                    </>
-                  )}
-                />
-                {errors[field.id] && (
-                  <ErrorText message={errors[field.id].message} />
-                )}
-              </div>
-            </div>
-          </motion.div>
-        );
-      })}
-
-      <motion.button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full mx-auto block bg-bulb-yellow text-bulb-blue 
-             dark:bg-bulb-success dark:text-bulb-white text-[20px] font-normal py-2 px-6 
-             rounded-[10px] transition duration-200 disabled:bg-gray-400"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {isSubmitting ? "Submitting..." : "Submit"}
-      </motion.button>
-    </form>
+    <div>
+      <FieldEditor fields={form.fields} onSave={handleSaveFields} />
+    </div>
   );
 };
 
-export default FormRenderer;
+export default FormEditor;

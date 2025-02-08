@@ -98,11 +98,7 @@
           "type": "dropdown",
           "placeholder": "",
           "required": true,
-          "options": [
-            "Facilitator",
-            "Product",
-            "Teaching"
-          ],
+          "options": ["Facilitator", "Product", "Teaching"],
           "maxRating": 5,
           "ratingValue": 0
         },
@@ -112,11 +108,7 @@
           "type": "dropdown",
           "placeholder": "",
           "required": true,
-          "options": [
-            "Internet",
-            "Facility",
-            "The Desk"
-          ],
+          "options": ["Internet", "Facility", "The Desk"],
           "maxRating": 5,
           "ratingValue": 0
         },
@@ -133,12 +125,33 @@
       ]
     },
     {
-      "id": "",
+      "id": "d9013",
       "formId": "MarchEvent",
       "formType": "MarchEvent",
       "title": "T.O'sEvent",
       "eventDate": "2025-02-07",
-      "fields": []
+      "fields": [
+        {
+          "id": "1",
+          "label": "This is a reqiured field",
+          "type": "text",
+          "placeholder": "Enter your answer",
+          "required": true,
+          "options": [],
+          "maxRating": 5,
+          "ratingValue": 0
+        },
+        {
+          "id": "2",
+          "label": "I'm still testing",
+          "type": "text",
+          "placeholder": "Enter your answer",
+          "required": true,
+          "options": [],
+          "maxRating": 5,
+          "ratingValue": 0
+        }
+      ]
     }
   ],
   "responses": [
@@ -370,9 +383,7 @@
           "id": "1738327227244",
           "label": "Nice work, Sarah!",
           "type": "checkbox",
-          "value": [
-            "tea"
-          ]
+          "value": ["tea"]
         },
         {
           "id": "1738327227245",
@@ -579,9 +590,7 @@
           "id": "1738327227244",
           "label": "Nice work, Sarah!",
           "type": "checkbox",
-          "value": [
-            "yea"
-          ]
+          "value": ["yea"]
         },
         {
           "id": "1738327227243",
@@ -698,9 +707,7 @@
           "id": "1738327227244",
           "label": "Nice work, Sarah!",
           "type": "checkbox",
-          "value": [
-            "yea"
-          ]
+          "value": ["yea"]
         },
         {
           "id": "1738327227243",

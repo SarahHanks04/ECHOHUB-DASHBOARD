@@ -8,6 +8,7 @@ import ComplaintPage from "./pages/ComplaintPage";
 import FeedbackPage from "./pages/FeedbackPage";
 import ProfilePage from "./pages/ProfilePage";
 import Editor from "./pages/Editor";
+import FormEditor from "./utils/Editor/FormEditor";
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
               <Route path="/complaints" element={<ComplaintPage />} />
               <Route path="/feedbacks" element={<FeedbackPage />} />
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/editor" element={<Editor />} />
+              {/* <Route path="/editor" element={<Editor />} /> */}
+              {/* <Route path="/form-editor:formId" element={<FormEditor />} /> */}
               {/* Default route */}
               <Route path="*" element={<PageNotFound />} />
             </Route>

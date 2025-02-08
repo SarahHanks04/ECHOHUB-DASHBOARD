@@ -49,12 +49,18 @@ const Sidebar = () => {
       icon: FeedbackIcon,
       activeIcon: FeedbackColored,
     },
-    {
-      to: "/editor",
-      label: "Editor",
-      icon: EditIcon,
-      activeIcon: EditIcon,
-    },
+    // {
+    //   to: "/editor",
+    //   label: "Editor",
+    //   icon: EditIcon,
+    //   activeIcon: EditIcon,
+    // },
+    // {
+    //   to: "/form-editor:formId",
+    //   label: "Form Editor",
+    //   icon: EditIcon,
+    //   activeIcon: EditIcon,
+    // },
   ];
 
   const lastMenuItems = [

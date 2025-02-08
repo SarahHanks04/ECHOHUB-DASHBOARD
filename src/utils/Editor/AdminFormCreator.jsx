@@ -112,7 +112,7 @@ const AdminFormCreator = () => {
     fields: [],
   });
 
-  const queryClient = useQueryClient(); // Hook to access the query client
+  const queryClient = useQueryClient(); 
   const mutateFormEvent = useMutateFormEvent();
 
   const handleInputChange = (e) => {
@@ -130,7 +130,7 @@ const AdminFormCreator = () => {
       {
         onSuccess: () => {
           toast.success("Form created successfully!");
-          setFormData({ ...formData, fields: [] }); // Reset form fields
+          setFormData({ ...formData, fields: [] }); 
 
           // Invalidate and refetch all form events
           queryClient.invalidateQueries(["formEvents"]);
