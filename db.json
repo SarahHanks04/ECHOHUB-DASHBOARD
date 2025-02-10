@@ -98,7 +98,11 @@
           "type": "dropdown",
           "placeholder": "",
           "required": true,
-          "options": ["Facilitator", "Product", "Teaching"],
+          "options": [
+            "Facilitator",
+            "Product",
+            "Teaching"
+          ],
           "maxRating": 5,
           "ratingValue": 0
         },
@@ -108,7 +112,11 @@
           "type": "dropdown",
           "placeholder": "",
           "required": true,
-          "options": ["Internet", "Facility", "The Desk"],
+          "options": [
+            "Internet",
+            "Facility",
+            "The Desk"
+          ],
           "maxRating": 5,
           "ratingValue": 0
         },
@@ -383,7 +391,9 @@
           "id": "1738327227244",
           "label": "Nice work, Sarah!",
           "type": "checkbox",
-          "value": ["tea"]
+          "value": [
+            "tea"
+          ]
         },
         {
           "id": "1738327227245",
@@ -1414,6 +1424,18 @@
       "name": "Sarah Hanks",
       "email": "Sarah@yahoo.com",
       "password": "911221@b"
+    },
+    {
+      "id": "3a8a",
+      "name": "Akoje Gabriel ",
+      "email": "akojegabriel@gmail.com",
+      "password": "Gabby@123"
+    },
+    {
+      "id": "ff83",
+      "name": "Akoje Gabriel",
+      "email": "akojegabriel@gmail.com",
+      "password": "Gabby@123"
     }
   ],
   "signUp": [
