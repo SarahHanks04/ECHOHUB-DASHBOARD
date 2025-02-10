@@ -81,7 +81,6 @@ const FormEditor = () => {
   if (!form) return <div>Form not found</div>;
 
   const handleSaveFields = (updatedFields) => {
-    // Prepare the data to send back to the server
     const updatedForm = {
       ...form,
       fields: updatedFields,
