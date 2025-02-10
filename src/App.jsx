@@ -7,8 +7,6 @@ import ProtectedRoute from "./hook/ProtectedRoute";
 import ComplaintPage from "./pages/ComplaintPage";
 import FeedbackPage from "./pages/FeedbackPage";
 import ProfilePage from "./pages/ProfilePage";
-import Editor from "./pages/Editor";
-import FormEditor from "./utils/Editor/FormEditor";
 import DashboardPage from "./pages/DashboardPage";
 import RecentCommentList from "./utils/Dashboard/RecentList/RecentCommentList";
 

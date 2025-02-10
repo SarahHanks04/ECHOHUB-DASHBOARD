@@ -7,13 +7,13 @@ const ToggleComponent = ({ initialTab = "feedback" }) => {
   return (
     <div className="px-4 sm:px-5 mt-4 sm:ml-0 lg:ml-56">
       {/* Tab Navigation */}
-      <div className="overflow-x-auto whitespace-nowrap scrollbar-hide border-b-2 border-bulb-yellow rounded-lg shadow-md">
-        <div className="flex space-x-4 sm:space-x-12 px-4 sm:px-10">
+      <div className=" whitespace-nowrap scrollbar-hide border-b-2 border-bulb-yellow rounded-lg shadow-md">
+        <div className="flex space-x-5 sm:space-x-12 px-4 sm:px-4">
           {["feedback", "complaint", "event", "suggestion"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-3 sm:px-4 py-2 text-sm sm:text-base font-medium rounded-lg transition-all ${
+              className={`sm:px-8 py-2 text-sm sm:text-base font-medium rounded-lg transition-all ${
                 activeTab === tab
                   ? "text-gray-700 border border-bulb-yellow"
                   : "text-gray-700 bg-bulb-white"
@@ -26,7 +26,7 @@ const ToggleComponent = ({ initialTab = "feedback" }) => {
       </div>
 
       {/* Tab Content */}
-      <div className="mt-4 rounded-lg shadow-md">
+      <div className="mt-4">
         {activeTab === "feedback" && (
           <ResponseList type="feedback" title="Feedback" />
         )}
