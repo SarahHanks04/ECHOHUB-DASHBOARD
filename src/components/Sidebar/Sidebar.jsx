@@ -107,7 +107,7 @@ const Sidebar = () => {
       <aside
         className={`fixed top-0 left-0 h-full bg-[#13162D] text-[#FAF4F4] w-56 transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 flex flex-col pt-[6px] z-40`}
+        } lg:translate-x-0 flex flex-col pt-[6px]  pl-3 z-40`}
       >
         {/* Sidebar Logo */}
         <div className="p-4 border-b border-gray-700 flex justify-start">

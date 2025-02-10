@@ -181,7 +181,6 @@ export const useSubmitResponse = () => {
       const formattedData = Object.entries(combinedFormData)
         .map(([key, value]) => {
           let field = formDetails.fields.find((f) => f.id === key);
-          // If field not found in formDetails (like user info fields), create a mock field
           if (!field) {
             field = {
               id: key,
@@ -229,6 +228,18 @@ export const useFetchResponses = () => {
   });
 };
 
+// Fetch by Type
+export const useFetchResponsesByType = (type) => {
+  return useQuery({
+    queryKey: ["responses", type],
+    queryFn: async () => {
+      const response = await axios.get(`${BASE_URL}/responses?type=${type}`);
+      return response.data;
+    },
+    refetchInterval: 5000, 
+  });
+};
+
 export const useFetchResponsesById = (id) => {
   return useQuery({
     queryKey: ["responses", id],
@@ -236,7 +247,7 @@ export const useFetchResponsesById = (id) => {
       const response = await axios.get(`${BASE_URL}/responses?id=${id}`);
       return response.data.map((resp) => ({
         ...resp,
-        formattedDate: new Date(resp.submissionDate).toLocaleString(), 
+        formattedDate: new Date(resp.submissionDate).toLocaleString(),
       }));
     },
     enabled: !!id,

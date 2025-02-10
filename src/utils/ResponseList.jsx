@@ -65,7 +65,7 @@ const ResponseList = ({ type, title }) => {
       {/* No Suggestions Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 relative max-w-6xl text-center">
+          <div className="bg-bulb-white rounded-lg shadow-lg p-6 relative max-w-6xl text-center">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
               onClick={() => setShowModal(false)}
@@ -91,7 +91,7 @@ const ResponseList = ({ type, title }) => {
           return (
             <div
               key={response.id}
-              className="bg-white shadow-md rounded-lg p-4 border border-gray-200 hover:shadow-lg transition-all"
+              className="bg-bulb-white shadow-md rounded-lg p-4 border border-gray-200 hover:shadow-lg transition-all"
             >
               <h3 className="text-[18px] font-normal">
                 <span className="text-[16px] font-normal">by </span>{" "}
@@ -106,7 +106,7 @@ const ResponseList = ({ type, title }) => {
                     selectedResponse === response ? null : response
                   )
                 }
-                className="mt-3 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+                className="mt-3 bg-transparent text-bulb-blue border border-bulb-yellow px-6 py-2 rounded-full transition"
               >
                 {selectedResponse === response
                   ? "Hide Details"

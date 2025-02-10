@@ -35,8 +35,7 @@ const ProfileImage = () => {
       {/* Profile Details */}
       <div className="text-center sm:text-left">
         <h2 className="text-lg font-semibold text-[#000000]">
-          {personalInfo.firstName || "First Name"}{" "}
-          {personalInfo.lastName || "Last Name"}
+          {personalInfo.firstName || "First Name"} {personalInfo.lastName || ""}
         </h2>
         <p className="text-sm text-[#4A4848]">
           {personalInfo.role || "Community Manager"}

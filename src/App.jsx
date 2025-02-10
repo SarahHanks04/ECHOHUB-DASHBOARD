@@ -9,6 +9,8 @@ import FeedbackPage from "./pages/FeedbackPage";
 import ProfilePage from "./pages/ProfilePage";
 import Editor from "./pages/Editor";
 import FormEditor from "./utils/Editor/FormEditor";
+import DashboardPage from "./pages/DashboardPage";
+import RecentCommentList from "./utils/Dashboard/RecentList/RecentCommentList";
 
 function App() {
   return (
@@ -20,10 +22,11 @@ function App() {
           {/* Protected Route */}
           <Route element={<ProtectedRoute />}>
             <Route element={<AppLayout />}>
-              {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+              <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/complaints" element={<ComplaintPage />} />
               <Route path="/feedbacks" element={<FeedbackPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/all-comments" element={<RecentCommentList />} />
               {/* <Route path="/editor" element={<Editor />} /> */}
               {/* <Route path="/form-editor:formId" element={<FormEditor />} /> */}
               {/* Default route */}

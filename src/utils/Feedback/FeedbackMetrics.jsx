@@ -26,7 +26,7 @@ function FeedbackMetrics() {
   return (
     <div className="flex flex-col sm:flex-row gap-[1rem] justify-start items-start p-4 mt-10 sm:ml-0 lg:ml-56">
       {/* Total Feedbacks */}
-      <div className="bg-white shadow-lg rounded-lg p-4 w-full sm:w-1/3">
+      <div className="bg-bulb-white shadow-lg rounded-lg p-4 w-full sm:w-1/3">
         <div className="flex items-center justify-between w-full mb-4">
           <h2 className="text-lg font-semibold text-gray-800">
             Total Feedbacks
@@ -40,7 +40,7 @@ function FeedbackMetrics() {
       </div>
 
       {/* Resolved Feedbacks */}
-      <div className="bg-white shadow-lg rounded-lg p-4 w-full sm:w-1/3">
+      <div className="bg-bulb-white shadow-lg rounded-lg p-4 w-full sm:w-1/3">
         <div className="flex items-center justify-between w-full mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Resolved</h2>
           <FaCheckCircle className="text-green-500 text-lg" />
@@ -52,7 +52,7 @@ function FeedbackMetrics() {
       </div>
 
       {/* Pending Feedbacks (same as unresolved) */}
-      <div className="bg-white shadow-lg rounded-lg p-4 w-full sm:w-1/3">
+      <div className="bg-bulb-white shadow-lg rounded-lg p-4 w-full sm:w-1/3">
         <div className="flex items-center justify-between w-full mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Pending</h2>
           <FaClock className="text-orange-400 text-lg" />
