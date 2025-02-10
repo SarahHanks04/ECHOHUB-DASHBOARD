@@ -57,7 +57,7 @@
 
 // export default FormEditor;
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useFetchFormById, useMutateFormEvent } from "@/api/ResponseApi";
 import { BASE_URL } from "@/api/api";
 import { useParams } from "react-router-dom";
@@ -66,13 +66,12 @@ import FieldEditor from "./FieldEditor";
 import { useQueryClient } from "@tanstack/react-query";
 
 const FormEditor = () => {
-  const { formId } = useParams(); // Changed from id to formId
+  const { formId } = useParams();
   const params = useParams();
   console.log("All params:", params);
-  console.log("Fetching form with formId:", formId); // Changed log message
-  console.log("Constructed URL:", `${BASE_URL}/formEvents/${formId}`); // Changed URL construction
+  console.log("Fetching form with formId:", formId);
+  console.log("Constructed URL:", `${BASE_URL}/formEvents/${formId}`);
 
-  // Assuming useFetchFormById can handle 'formId' instead of 'id'
   const { data: form, isLoading, isError } = useFetchFormById(formId);
 
   const { mutate: updateForm } = useMutateFormEvent();
@@ -82,19 +81,18 @@ const FormEditor = () => {
   if (!form) return <div>Form not found</div>;
 
   const handleSaveFields = (updatedFields) => {
-    // Prepare the data to send back to the server
     const updatedForm = {
       ...form,
       fields: updatedFields,
     };
 
     updateForm(
-      { formId, data: updatedForm }, // Changed from id to formId
+      { formId, data: updatedForm },
       {
         onSuccess: () => {
           toast.success("Form updated successfully!");
           const queryClient = useQueryClient();
-          queryClient.invalidateQueries(["form", formId]); // Changed from id to formId
+          queryClient.invalidateQueries(["form", formId]);
         },
         onError: (error) => {
           toast.error("Error updating form: " + error.message);

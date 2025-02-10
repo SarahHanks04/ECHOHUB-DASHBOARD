@@ -61,7 +61,7 @@ const ResponseList = ({ type, title }) => {
     );
 
   return (
-    <div className="p-4 md:p-6">
+    <div className="">
       {/* No Suggestions Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

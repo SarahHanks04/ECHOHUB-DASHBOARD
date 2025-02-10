@@ -34,7 +34,6 @@ const AdminFormCreator = () => {
           toast.success("Form created successfully!");
           setFormData({ ...formData, fields: [] });
 
-          // Invalidate and refetch all form events
           queryClient.invalidateQueries(["formEvents"]);
         },
         onError: (error) => {
