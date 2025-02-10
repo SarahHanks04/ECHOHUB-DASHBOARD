@@ -65,14 +65,14 @@ const ResponseList = ({ type, title }) => {
       {/* No Suggestions Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-bulb-white rounded-lg shadow-lg p-6 relative max-w-6xl text-center">
+          <div className="bg-bulb-white rounded-lg shadow-lg p-4 md:p-6 relative max-w-xs md:max-w-md lg:max-w-lg text-center">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
               onClick={() => setShowModal(false)}
             >
               <X size={20} />
             </button>
-            <h2 className="text-lg pt-4 font-semibold mb-3">
+            <h2 className="text-lg font-semibold mb-3">
               OOPS! There are currently no suggestions
             </h2>
           </div>
@@ -93,8 +93,10 @@ const ResponseList = ({ type, title }) => {
               key={response.id}
               className="bg-bulb-white shadow-md rounded-lg p-4 border border-gray-200 hover:shadow-lg transition-all"
             >
-              <h3 className="text-[18px] font-normal">
-                <span className="text-[16px] font-normal">by </span>{" "}
+              <h3 className="text-[16px] md:text-[18px] font-normal">
+                <span className="text-[14px] md:text-[16px] font-normal">
+                  by{" "}
+                </span>{" "}
                 {responderName} - {dateSubmitted}
               </h3>
               <p className="text-gray-700 mt-2">
@@ -106,7 +108,7 @@ const ResponseList = ({ type, title }) => {
                     selectedResponse === response ? null : response
                   )
                 }
-                className="mt-3 bg-transparent text-bulb-blue border border-bulb-yellow px-6 py-2 rounded-full transition"
+                className="mt-3 bg-transparent text-bulb-blue border border-bulb-yellow px-4 py-2 rounded-full transition text-sm md:text-base"
               >
                 {selectedResponse === response
                   ? "Hide Details"

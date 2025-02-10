@@ -53,25 +53,26 @@ function FeedbackTable() {
   };
 
   return (
-    <section className="overflow-x-auto px-5 mt-14 sm:ml-0 lg:ml-56">
-      <div className="overflow-x-auto rounded-lg">
-        <div className="shadow border-b border-gray-200 overflow-x-auto sm:overflow-x-visible">
-          <Table className="min-w-full divide-y divide-gray-200 rounded-lg">
+    <section className="px-5 mt-14 sm:ml-0 lg:ml-56">
+      <div className="overflow-x-auto rounded-lg shadow border-b border-gray-200">
+        {/* Table for larger screens */}
+        <div className="hidden sm:block">
+          <Table className="min-w-full divide-y divide-gray-200">
             <TableHeader className="bg-gray-50">
               <TableRow>
-                <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   ID
                 </TableHead>
-                <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Feedback
                 </TableHead>
-                <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Date Submitted
                 </TableHead>
-                <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
                 </TableHead>
-                <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Action
                 </TableHead>
               </TableRow>
@@ -86,19 +87,19 @@ function FeedbackTable() {
 
                 return (
                   <TableRow key={feedback.id}>
-                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {feedback.id}
+                    <TableCell className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                      #{feedback.id}
                     </TableCell>
-                    <TableCell className="px-6 py-4 text-sm text-gray-500">
+                    <TableCell className="px-4 py-3 text-sm text-gray-500">
                       {feedbackText}
                     </TableCell>
-                    <TableCell className="px-6 py-4 text-sm text-gray-500">
+                    <TableCell className="px-4 py-3 text-sm text-gray-500">
                       {formatDateWithOrdinal(feedback.submissionDate)}
                     </TableCell>
-                    <TableCell className="px-6 py-4 text-sm text-gray-500">
+                    <TableCell className="px-4 py-3 text-sm text-gray-500">
                       {feedback.status}
                     </TableCell>
-                    <TableCell className="px-6 py-4 text-sm font-medium">
+                    <TableCell className="px-4 py-3 text-sm font-medium">
                       <a
                         href="#"
                         className="text-indigo-600 hover:text-indigo-900"
@@ -111,6 +112,70 @@ function FeedbackTable() {
               })}
             </TableBody>
           </Table>
+        </div>
+
+        {/* Stacked cards for small screens */}
+        <div className="sm:hidden">
+          {feedbacks.map((feedback) => {
+            const feedbackMessages = feedback.data
+              .filter((d) => d.type === "textarea")
+              .map((d) => d.value)
+              .join(", ");
+            const feedbackText = feedbackMessages || "No feedback provided";
+
+            return (
+              <div
+                key={feedback.id}
+                className="bg-white p-4 mb-4 rounded-lg shadow"
+              >
+                <div className="space-y-2">
+                  <div>
+                    <span className="text-sm font-medium text-gray-900">
+                      ID:
+                    </span>{" "}
+                    <span className="text-sm text-gray-500">
+                      #{feedback.id}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-900">
+                      Feedback:
+                    </span>{" "}
+                    <span className="text-sm text-gray-500">
+                      {feedbackText}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-900">
+                      Date Submitted:
+                    </span>{" "}
+                    <span className="text-sm text-gray-500">
+                      {formatDateWithOrdinal(feedback.submissionDate)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-900">
+                      Status:
+                    </span>{" "}
+                    <span className="text-sm text-gray-500">
+                      {feedback.status}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-900">
+                      Action:
+                    </span>{" "}
+                    <a
+                      href="#"
+                      className="text-sm text-indigo-600 hover:text-indigo-900"
+                    >
+                      View
+                    </a>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
