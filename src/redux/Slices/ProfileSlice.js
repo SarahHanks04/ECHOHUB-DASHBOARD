@@ -18,6 +18,17 @@ export const saveProfileToBackend = createAsyncThunk(
   }
 );
 
+export const fetchProfile = createAsyncThunk(
+  "profile/fetchProfile",
+  async () => {
+    const response = await fetch("http://localhost:5000/profile");
+    if (!response.ok) {
+      throw new Error("Failed to fetch profile data.");
+    }
+    return await response.json();
+  }
+);
+
 const initialState = {
   profileImage: "User2",
   lastUpdated: "",
@@ -69,13 +80,28 @@ const profileSlice = createSlice({
       state.lastUpdated = new Date().toLocaleString();
     },
   },
+  // extraReducers: (builder) => {
+  //   builder.addCase(saveProfileToBackend.fulfilled, (state, action) => {
+  //     const { personalInfo, Address } = action.payload;
+  //     if (personalInfo) state.personalInfo = personalInfo;
+  //     if (Address) state.Address = Address;
+  //     state.lastUpdated = new Date().toLocaleString();
+  //   });
+  // },
   extraReducers: (builder) => {
-    builder.addCase(saveProfileToBackend.fulfilled, (state, action) => {
-      const { personalInfo, Address } = action.payload;
-      if (personalInfo) state.personalInfo = personalInfo;
-      if (Address) state.Address = Address;
-      state.lastUpdated = new Date().toLocaleString();
-    });
+    builder
+      .addCase(saveProfileToBackend.fulfilled, (state, action) => {
+        const { personalInfo, Address } = action.payload;
+        if (personalInfo) state.personalInfo = personalInfo;
+        if (Address) state.Address = Address;
+        state.lastUpdated = new Date().toLocaleString();
+      })
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        const { personalInfo, Address, lastUpdated } = action.payload;
+        if (personalInfo) state.personalInfo = personalInfo;
+        if (Address) state.Address = Address;
+        if (lastUpdated) state.lastUpdated = lastUpdated;
+      });
   },
 });
 

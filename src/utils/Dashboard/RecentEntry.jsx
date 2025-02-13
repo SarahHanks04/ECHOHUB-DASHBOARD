@@ -7,7 +7,7 @@ const RecentEntry = () => {
   const navigate = useNavigate();
   const { data: feedback } = useFetchResponsesByType("feedback");
   const { data: complaint } = useFetchResponsesByType("complaint");
-//   const { data: event } = useFetchResponsesByType("event");
+  // const { data: event } = useFetchResponsesByType("event");
 
   const handleCardClick = (type) => {
     navigate(`/${type}`, { replace: true });
