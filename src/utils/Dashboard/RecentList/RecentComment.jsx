@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Message from "../../../assets/Icons/Message.svg";
 import Expand from "../../../assets/Icons/Expand.svg";
 import WishIcon from "../../../assets/Icons/WishIcon.svg";
+import { jsPDF } from "jspdf";
 
 const RecentComment = ({ response }) => {
   // Message functionality
@@ -60,17 +61,89 @@ const RecentComment = ({ response }) => {
   };
 
   // Download functionality
+  // const handleDownload = () => {
+  //   const dataStr =
+  //     "data:text/json;charset=utf-8," +
+  //     encodeURIComponent(JSON.stringify(response));
+  //   const downloadAnchorNode = document.createElement("a");
+  //   downloadAnchorNode.setAttribute("href", dataStr);
+  //   downloadAnchorNode.setAttribute("download", `response_${response.id}.json`);
+  //   document.body.appendChild(downloadAnchorNode);
+  //   downloadAnchorNode.click();
+  //   downloadAnchorNode.remove();
+  // };
+
+  // Download functionality (PDF)
   const handleDownload = () => {
-    const dataStr =
-      "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(response));
-    const downloadAnchorNode = document.createElement("a");
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", `response_${response.id}.json`);
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
+    const doc = new jsPDF();
+
+    // Add title
+    doc.setFontSize(18);
+    doc.text("Response Details", 10, 10);
+
+    // Add response data
+    doc.setFontSize(12);
+    let yOffset = 20;
+
+    // Add name
+    const fullName = getFullName(response);
+    doc.text(`Name: ${fullName}`, 10, yOffset);
+    yOffset += 10;
+
+    // Add submission date
+    const submissionDate = new Date(response.submissionDate).toLocaleString();
+    doc.text(`Submission Date: ${submissionDate}`, 10, yOffset);
+    yOffset += 10;
+
+    // Add form type
+    doc.text(`Form Type: ${response.formType}`, 10, yOffset);
+    yOffset += 10;
+
+    // Add message or feedback
+    const messageData = response.data.find((item) => item.type === "textarea");
+    doc.text(`Message: ${messageData?.value || "No message"}`, 10, yOffset);
+    yOffset += 10;
+
+    // Add saved messages (if any)
+    if (savedMessages.length > 0) {
+      doc.text("Saved Messages:", 10, yOffset);
+      yOffset += 10;
+      savedMessages.forEach((msg, index) => {
+        doc.text(`${index + 1}. ${msg}`, 15, yOffset);
+        yOffset += 10;
+      });
+    }
+
+    // Save the PDF
+    doc.save(`response_${response.id}.pdf`);
   };
+  // Helper function to get full name
+  const getFullName = (response) => {
+    let nameData = response.data.find((item) => item.label === "Name");
+    let firstNameData = response.data.find(
+      (item) =>
+        item.label.toLowerCase() === "firstname" ||
+        item.label.toLowerCase() === "first name"
+    );
+    let lastNameData = response.data.find(
+      (item) =>
+        item.label.toLowerCase() === "lastname" ||
+        item.label.toLowerCase() === "last name"
+    );
+
+    if (nameData) {
+      return nameData.value;
+    } else if (firstNameData && lastNameData) {
+      return `${firstNameData.value || ""} ${lastNameData.value || ""}`.trim();
+    } else if (firstNameData) {
+      return firstNameData.value || "Anonymous";
+    } else if (lastNameData) {
+      return lastNameData.value || "Anonymous";
+    } else {
+      return "Anonymous";
+    }
+  };
+  // Stop
 
   // Check if response.data exists before calling find
   if (!response.data) {
@@ -144,8 +217,8 @@ const RecentComment = ({ response }) => {
   }
 
   return (
-    <section className="border-b border-gray-400 pb-6 pt-2">
-      <div className="flex items-start space-x-4 p-4">
+    <section className="border-b-[1.4px] border-gray-300 pb-6 pt-2">
+      <div className="flex items-start space-x-4 p-2">
         {/* Avatar */}
         <div className="w-12 h-12 flex items-center justify-center bg-bulb-blue text-bulb-yellow rounded-full text-xl font-bold shadow-md">
           {initials}
@@ -243,7 +316,7 @@ export default RecentComment;
 // import Expand from "../../../assets/Icons/Expand.svg";
 // import WishIcon from "../../../assets/Icons/WishIcon.svg";
 // import classNames from "classnames";
-// import { jsPDF } from "jspdf"; 
+// import { jsPDF } from "jspdf";
 
 // const RecentComment = ({ response }) => {
 //   // Message functionality

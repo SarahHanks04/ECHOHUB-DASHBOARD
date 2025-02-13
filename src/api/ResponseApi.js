@@ -36,6 +36,24 @@ export const useFetchFormById = (id) => {
   });
 };
 
+
+// To delete a form
+export const useDeleteFormEvent = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id) => {
+      return axios.delete(`${BASE_URL}/formEvents/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["formEvents"]);
+    },
+    onError: (error) => {
+      console.error("Error deleting form:", error);
+    },
+  });
+};
+
 // Create or update form events (Admin functionality)
 export const useMutateFormEvent = () => {
   const queryClient = useQueryClient();

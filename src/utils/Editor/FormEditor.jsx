@@ -76,7 +76,7 @@ const FormEditor = () => {
 
   const { mutate: updateForm } = useMutateFormEvent();
 
-  if (isLoading) return <div>Loading form...</div>;
+  if (isLoading) return <div><Spinner /></div>;
   if (isError) return <div>Error loading form</div>;
   if (!form) return <div>Form not found</div>;
 
