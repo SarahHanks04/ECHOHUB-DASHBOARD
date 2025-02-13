@@ -1426,23 +1426,16 @@
       "password": "911221@b"
     },
     {
-<<<<<<< HEAD
-      "id": "3a8a",
-      "name": "Akoje Gabriel ",
-      "email": "akojegabriel@gmail.com",
-      "password": "Gabby@123"
-    },
-    {
-      "id": "ff83",
-      "name": "Akoje Gabriel",
-      "email": "akojegabriel@gmail.com",
-      "password": "Gabby@123"
-=======
       "id": "0ff3",
       "name": "Akande Shalewa",
       "email": "Akande@yahoo.com",
       "password": "Ojo@1234"
->>>>>>> 8f2f0965036038325c2440193450c57bf75d8de1
+    },
+    {
+      "id": "123d",
+      "name": "Akoje Gabriel",
+      "email": "akojegabriel@gmail.com",
+      "password": "Gabby@123"
     }
   ],
   "signUp": [
