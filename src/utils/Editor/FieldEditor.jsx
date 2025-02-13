@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
 import { PlusCircle, Trash2 } from "lucide-react";
 
 const FieldEditor = ({ fields, onSave }) => {
@@ -38,22 +37,13 @@ const FieldEditor = ({ fields, onSave }) => {
     );
   };
 
-  // Save changes
   const handleSave = () => {
     onSave(editingFields);
-    toast.success("Changes saved successfully!", {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
   };
 
   return (
-    <div className="max-w-4xl bg-bulb-lightBlue dark:bg-bulb-blue mx-auto p-6 shadow-lg rounded-lg text-[var(--text)] border border-[var(--border)]">
-      <h2 className="text-xl md:text-2xl font-semibold mb-4">Edit Fields</h2>
+    <section className="max-w-4xl bg-bulb-lightBlue dark:bg-bulb-blue mx-auto p-6 shadow-lg rounded-lg text-[var(--text)] border border-[var(--border)]">
+      <h2 className="text-xl md:text-xl font-semibold mb-4">Fields</h2>
 
       <div className="space-y-6">
         {editingFields.map((field, index) => (
@@ -83,6 +73,7 @@ const FieldEditor = ({ fields, onSave }) => {
                 <option value="text">Text</option>
                 <option value="number">Number</option>
                 <option value="email">Email</option>
+                <option value="tel">Tel</option>
                 <option value="radio">Radio</option>
                 <option value="checkbox">Checkbox</option>
                 <option value="rating">Rating</option>
@@ -90,9 +81,15 @@ const FieldEditor = ({ fields, onSave }) => {
                 <option value="textarea">Textarea</option>
               </select>
 
-              {["text", "email", "number"].includes(field.type) && (
+              {["text", "email", "number", "tel"].includes(field.type) && (
                 <input
-                  type={field.type === "email" ? "email" : field.type}
+                  type={
+                    field.type === "email"
+                      ? "email"
+                      : field.type === "tel"
+                      ? "tel"
+                      : field.type
+                  }
                   value={field.placeholder}
                   onChange={(e) =>
                     updateField(field.id, "placeholder", e.target.value)
@@ -155,9 +152,7 @@ const FieldEditor = ({ fields, onSave }) => {
           Update
         </button>
       </div>
-
-      <ToastContainer />
-    </div>
+    </section>
   );
 };
 
