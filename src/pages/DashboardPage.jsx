@@ -11,7 +11,7 @@ const DashboardPage = () => {
 
   return (
     <div className="bg-[#EAEAEA] lg:pl-10 lg:ml-[12rem] sm:ml-0">
-      <header className="text-2xl font-bold pt-8 sm:pt-12 mb-2">
+      <header className="text-2xl font-semibold text-[#171717] pt-8 sm:pt-12 mb-2">
         {`Welcome ${userName || "User"},`}
       </header>
 
@@ -20,8 +20,8 @@ const DashboardPage = () => {
         <div className="lg:col-span-2 ">
           <RecentEntry />
 
-          <h1 className="py-4 text-2xl font-medium">Response Chart</h1>
-          <div className="mt-5">
+          <h1 className="py-1 text-[19px] font-medium">Response Chart</h1>
+          <div className="mt-3">
             <BarChart />
 
           </div>
