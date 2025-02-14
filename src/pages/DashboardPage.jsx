@@ -44,36 +44,6 @@ const DashboardPage = () => {
             <RecentEntry />
           </motion.div>
 
-<<<<<<< HEAD
-          <h1 className="py-1 text-[19px] font-medium">Response Chart</h1>
-          <div className="mt-3">
-            <BarChart />
-
-          </div>
-         
-          <div className="mt-2 ">
-          <p className="py-3 font-medium text-xl ">Event Summary</p>
-            <EventSummary/>
-          </div>
-          <div className="mt-2">
-            <p className="py-3 font-medium text-xl">Complaints Summary</p>
-            <ComplaintSummary/>
-          </div>
-        </div>
-
-        {/* Right Section */}
-        <div className="lg:col-span-1 mt-4 w-full">
-          <RecentCommentList />
-        </div>
-        <h1 className="py-4 text-2xl font-medium"></h1>
-       
-      </div>
-
-      {/* Soon to be component */}
-      {/* <div className="mt-6"></div> */}
-     
- 
-=======
           {/* Response Chart Animation */}
           <motion.div variants={gridItemVariants}>
             <h1 className="py-1 text-[19px] font-medium">Response Chart</h1>
@@ -115,7 +85,6 @@ const DashboardPage = () => {
           </div>
         </motion.div>
       </motion.div>
->>>>>>> 3654caf0eed6d928318010f815d461ac9aea2f49
     </div>
   );
 };
