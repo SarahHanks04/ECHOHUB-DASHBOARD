@@ -227,10 +227,10 @@ const RecentComment = ({ response }) => {
         {/* Comment Details */}
         <div className="flex-1">
           <div className="flex justify-between items-center">
-            <h2 className="text-base font-semibold text-gray-800">
+            <h2 className="text-[16px] font-semibold text-gray-800">
               {fullName === "" ? "Anonymous" : fullName}
             </h2>
-            <span className="text-sm text-gray-500">{timeAgo}</span>
+            <span className="text-[12px] text-gray-500">{timeAgo}</span>
           </div>
           <div className="text-sm text-gray-500">
             on {locationOrType} - #{response.id}
@@ -242,7 +242,7 @@ const RecentComment = ({ response }) => {
               key={index}
               className="bg-bulb-white p-2 rounded-md mt-2 flex justify-between items-center"
             >
-              <p className="text-sm text-gray-700">{msg}</p>
+              <p className="text-[13px] text-gray-700">{msg}</p>
               <button
                 onClick={() => handleDeleteMessage(index)}
                 className="text-red-500 hover:text-red-700"
@@ -279,7 +279,7 @@ const RecentComment = ({ response }) => {
           )}
 
           {/* Feedback Message */}
-          <p className="mt-2 text-sm text-gray-700">
+          <p className="mt-2 text-[13px] text-gray-700">
             {messageData?.value || "No message"}
           </p>
         </div>
@@ -290,7 +290,7 @@ const RecentComment = ({ response }) => {
           onClick={() => setMessageOpen(!messageOpen)}
           className="text-gray-500"
         >
-          <img src={Message} alt="Message Icon" />
+          <img src={Message} alt="Message Icon" size={16} />
         </button>
         <button
           onClick={handleLike}
@@ -298,10 +298,10 @@ const RecentComment = ({ response }) => {
             isLiked ? "red" : "gray"
           }-700`}
         >
-          <img src={WishIcon} alt="Like icon" />
+          <img src={WishIcon} alt="Like icon" size={16} />
         </button>
         <button onClick={handleDownload} className="text-gray-500">
-          <img src={Expand} alt="Download Icon" />
+          <img src={Expand} alt="Download Icon" size={16} />
         </button>
       </div>
     </section>
