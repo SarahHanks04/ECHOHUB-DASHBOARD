@@ -1,4 +1,5 @@
-// WITH SEARCH FUNCTIONALITY
+// WITH SEARCH FUNCTIONALITY AND PAGINATION
+import React, { useState } from "react";
 import { useFetchResponses } from "@/api/ResponseApi";
 import {
   Table,
@@ -8,12 +9,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import Spinner from "../Spinner/Spinner";
 import { useSelector } from "react-redux";
+import Pagination from "@/components/Pagination";
 
 function ComplaintTable() {
   const { data: responses, isLoading } = useFetchResponses();
   const searchTerm = useSelector((state) => state.search.term);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   if (isLoading)
     return (
@@ -61,6 +67,12 @@ function ComplaintTable() {
     return fieldMatch || dateMatch || monthMatch;
   });
 
+  // Paginate the filtered complaints
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedComplaints = filteredComplaints.slice(startIndex, endIndex);
+  const hasNextPage = endIndex < filteredComplaints.length;
+
   // DATE FORMAT
   const formatDateWithOrdinal = (dateString) => {
     const date = new Date(dateString);
@@ -86,33 +98,37 @@ function ComplaintTable() {
     return `${month} ${day}${getOrdinalSuffix(day)}, ${year}`;
   };
 
+  const handleResolve = (id) => {
+    // Handle resolve logic here
+    console.log(`Resolved complaint with ID: ${id}`);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <section className="px-5 mt-14 sm:ml-0 lg:ml-56">
-      <div className="overflow-x-auto rounded-[8px] shadow border-b border-gray-200">
+    <section className="px-8 my-4 sm:ml-0 lg:ml-56">
+      <h1 className="text-[#111112] font-semibold text-[26px] mb-3 px-2">
+        Recent Complaints
+      </h1>
+      <div className="overflow-x-auto rounded-[8px] shadow border-b border-gray-300">
         {/* Table for larger screens */}
         <div className="hidden sm:block">
-          <Table className="min-w-full divide-y divide-gray-200">
-            <TableHeader className="bg-gray-50">
+          <Table className="min-w-full">
+            <TableHeader className="bg-gray-200 text-[20px] font-medium text-[#111112]">
               <TableRow>
-                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ID
+                <TableHead className="min-w-[100px]">ID</TableHead>
+                <TableHead className="min-w-[200px]">Description</TableHead>
+                <TableHead className="min-w-[150px] whitespace-nowrap">
+                  Date
                 </TableHead>
-                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Description
-                </TableHead>
-                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Date Submitted
-                </TableHead>
-                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </TableHead>
-                <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Action
-                </TableHead>
+                <TableHead className="min-w-[100px]">Status</TableHead>
+                <TableHead className="min-w-[100px]">Action</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="bg-white divide-y divide-gray-200">
-              {filteredComplaints.map((complaint) => {
+            <TableBody className="px-4">
+              {paginatedComplaints.map((complaint) => {
                 const complaintMessages = complaint.data
                   .filter((d) => d.type === "textarea")
                   .map((d) => d.value)
@@ -120,26 +136,46 @@ function ComplaintTable() {
                 const description = complaintMessages || "No message provided";
 
                 return (
-                  <TableRow key={complaint.id}>
-                    <TableCell className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <TableRow
+                    key={complaint.id}
+                    className="bg-[#FAF4F4] px-4 hover:bg-gray-50 text-[#545455] text-[16px]"
+                  >
+                    <TableCell className="whitespace-nowrap">
                       #{complaint.id}
                     </TableCell>
-                    <TableCell className="px-4 py-3 text-sm text-gray-500">
-                      {description}
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-sm text-gray-500">
+                    <TableCell>{description}</TableCell>
+                    <TableCell className="whitespace-nowrap">
                       {formatDateWithOrdinal(complaint.submissionDate)}
                     </TableCell>
-                    <TableCell className="px-4 py-3 text-sm text-gray-500">
-                      {complaint.status}
-                    </TableCell>
-                    <TableCell className="px-4 py-3 text-sm font-medium">
-                      <a
-                        href="#"
-                        className="text-indigo-600 hover:text-indigo-900"
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className={`px-3 py-1 rounded-full text-[15px] font-medium ${
+                          complaint.status === "unresolved"
+                            ? "text-red-600"
+                            : "text-green-600"
+                        }`}
                       >
-                        View
-                      </a>
+                        {complaint.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {complaint.status === "unresolved" ? (
+                        <Button
+                          variant="ghost"
+                          onClick={() => handleResolve(complaint.id)}
+                          className="text-blue-600 px-3 py-1 rounded-md text-[15px]"
+                        >
+                          Resolve
+                        </Button>
+                      ) : (
+                        <Button
+                          disabled
+                          className="bg-gray-300 text-gray-500 px-3 rounded-md text-[14px] cursor-not-allowed"
+                        >
+                          Resolved
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 );
@@ -149,8 +185,8 @@ function ComplaintTable() {
         </div>
 
         {/* Stacked cards for small screens */}
-        <div className="sm:hidden">
-          {filteredComplaints.map((complaint) => {
+        <div className="sm:hidden space-y-4">
+          {paginatedComplaints.map((complaint) => {
             const complaintMessages = complaint.data
               .filter((d) => d.type === "textarea")
               .map((d) => d.value)
@@ -160,242 +196,82 @@ function ComplaintTable() {
             return (
               <div
                 key={complaint.id}
-                className="bg-white p-4 mb-4 rounded-lg shadow"
+                className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm"
               >
-                <div className="space-y-2">
-                  <div>
-                    <span className="text-sm font-medium text-gray-900">
-                      ID:
-                    </span>{" "}
-                    <span className="text-sm text-gray-500">
-                      #{complaint.id}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium text-gray-900">
-                      Description:
-                    </span>{" "}
-                    <span className="text-sm text-gray-500">{description}</span>
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium text-gray-900">
-                      Date Submitted:
-                    </span>{" "}
-                    <span className="text-sm text-gray-500">
-                      {formatDateWithOrdinal(complaint.submissionDate)}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium text-gray-900">
-                      Status:
-                    </span>{" "}
-                    <span className="text-sm text-gray-500">
-                      {complaint.status}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-sm font-medium text-gray-900">
-                      Action:
-                    </span>{" "}
-                    <a
-                      href="#"
-                      className="text-sm text-indigo-600 hover:text-indigo-900"
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm font-medium text-[#111112]">
+                    ID:
+                  </span>
+                  <span className="text-sm text-[#545455]">
+                    #{complaint.id}
+                  </span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm font-medium text-[#111112]">
+                    Description:
+                  </span>
+                  <span className="text-sm text-[#545455]">{description}</span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm font-medium text-[#111112]">
+                    Date:
+                  </span>
+                  <span className="text-sm text-[#545455]">
+                    {formatDateWithOrdinal(complaint.submissionDate)}
+                  </span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm font-medium text-[#111112]">
+                    Status:
+                  </span>
+                  <Badge
+                    variant="outline"
+                    className={`px-3 py-1 rounded-full text-base font-medium ${
+                      complaint.status === "unresolved"
+                        ? "text-red-600"
+                        : "text-green-600"
+                    }`}
+                  >
+                    {complaint.status}
+                  </Badge>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm font-medium text-[#111112]">
+                    Action:
+                  </span>
+                  {complaint.status === "unresolved" ? (
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleResolve(complaint.id)}
+                      className="text-blue-500 px-3 py-1 rounded-md text-base"
                     >
-                      View
-                    </a>
-                  </div>
+                      Resolve
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled
+                      className="bg-gray-300 text-[#545455] px-3 rounded-md text-base cursor-not-allowed"
+                    >
+                      Resolved
+                    </Button>
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        hasNextPage={hasNextPage}
+        onPageChange={handlePageChange}
+        totalItems={filteredComplaints.length}
+        itemsPerPage={itemsPerPage}
+      />
     </section>
   );
 }
 
 export default ComplaintTable;
-
-// import { useFetchResponses } from "@/api/ResponseApi";
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from "@/components/ui/table";
-// import Spinner from "../Spinner/Spinner";
-
-// function ComplaintTable() {
-//   const { data: responses, isLoading } = useFetchResponses();
-
-//   if (isLoading)
-//     return (
-//       <div>
-//         <Spinner />
-//       </div>
-//     );
-
-//   // FILTER COMPLAINT
-//   const complaints =
-//     responses
-//       ?.filter((response) => response.formType === "complaint")
-//       .sort(
-//         (a, b) => new Date(b.submissionDate) - new Date(a.submissionDate)
-//       ) || [];
-
-//   // DATE FORMAT
-//   const formatDateWithOrdinal = (dateString) => {
-//     const date = new Date(dateString);
-//     const day = date.getDate();
-//     const month = date.toLocaleString("en-US", { month: "long" });
-//     const year = date.getFullYear();
-
-//     // DAY SUFFIX
-//     const getOrdinalSuffix = (day) => {
-//       if (day > 3 && day < 21) return "th";
-//       switch (day % 10) {
-//         case 1:
-//           return "st";
-//         case 2:
-//           return "nd";
-//         case 3:
-//           return "rd";
-//         default:
-//           return "th";
-//       }
-//     };
-
-//     return `${month} ${day}${getOrdinalSuffix(day)}, ${year}`;
-//   };
-
-//   return (
-//     <section className="px-5 mt-14 sm:ml-0 lg:ml-56">
-//       <div className="overflow-x-auto rounded-[8px] shadow border-b border-gray-200">
-//         {/* Table for larger screens */}
-//         <div className="hidden sm:block">
-//           <Table className="min-w-full divide-y divide-gray-200">
-//             <TableHeader className="bg-gray-50">
-//               <TableRow>
-//                 <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                   ID
-//                 </TableHead>
-//                 <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                   Description
-//                 </TableHead>
-//                 <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                   Date Submitted
-//                 </TableHead>
-//                 <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                   Status
-//                 </TableHead>
-//                 <TableHead className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                   Action
-//                 </TableHead>
-//               </TableRow>
-//             </TableHeader>
-//             <TableBody className="bg-white divide-y divide-gray-200">
-//               {complaints.map((complaint) => {
-//                 const complaintMessages = complaint.data
-//                   .filter((d) => d.type === "textarea")
-//                   .map((d) => d.value)
-//                   .join(", ");
-//                 const description = complaintMessages || "No message provided";
-
-//                 return (
-//                   <TableRow key={complaint.id}>
-//                     <TableCell className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
-//                       #{complaint.id}
-//                     </TableCell>
-//                     <TableCell className="px-4 py-3 text-sm text-gray-500">
-//                       {description}
-//                     </TableCell>
-//                     <TableCell className="px-4 py-3 text-sm text-gray-500">
-//                       {formatDateWithOrdinal(complaint.submissionDate)}
-//                     </TableCell>
-//                     <TableCell className="px-4 py-3 text-sm text-gray-500">
-//                       {complaint.status}
-//                     </TableCell>
-//                     <TableCell className="px-4 py-3 text-sm font-medium">
-//                       <a
-//                         href="#"
-//                         className="text-indigo-600 hover:text-indigo-900"
-//                       >
-//                         View
-//                       </a>
-//                     </TableCell>
-//                   </TableRow>
-//                 );
-//               })}
-//             </TableBody>
-//           </Table>
-//         </div>
-
-//         {/* Stacked cards for small screens */}
-//         <div className="sm:hidden">
-//           {complaints.map((complaint) => {
-//             const complaintMessages = complaint.data
-//               .filter((d) => d.type === "textarea")
-//               .map((d) => d.value)
-//               .join(", ");
-//             const description = complaintMessages || "No message provided";
-
-//             return (
-//               <div
-//                 key={complaint.id}
-//                 className="bg-white p-4 mb-4 rounded-lg shadow"
-//               >
-//                 <div className="space-y-2">
-//                   <div>
-//                     <span className="text-sm font-medium text-gray-900">
-//                       ID:
-//                     </span>{" "}
-//                     <span className="text-sm text-gray-500">
-//                       #{complaint.id}
-//                     </span>
-//                   </div>
-//                   <div>
-//                     <span className="text-sm font-medium text-gray-900">
-//                       Description:
-//                     </span>{" "}
-//                     <span className="text-sm text-gray-500">{description}</span>
-//                   </div>
-//                   <div>
-//                     <span className="text-sm font-medium text-gray-900">
-//                       Date Submitted:
-//                     </span>{" "}
-//                     <span className="text-sm text-gray-500">
-//                       {formatDateWithOrdinal(complaint.submissionDate)}
-//                     </span>
-//                   </div>
-//                   <div>
-//                     <span className="text-sm font-medium text-gray-900">
-//                       Status:
-//                     </span>{" "}
-//                     <span className="text-sm text-gray-500">
-//                       {complaint.status}
-//                     </span>
-//                   </div>
-//                   <div>
-//                     <span className="text-sm font-medium text-gray-900">
-//                       Action:
-//                     </span>{" "}
-//                     <a
-//                       href="#"
-//                       className="text-sm text-indigo-600 hover:text-indigo-900"
-//                     >
-//                       View
-//                     </a>
-//                   </div>
-//                 </div>
-//               </div>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-// export default ComplaintTable;

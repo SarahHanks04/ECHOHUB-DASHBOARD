@@ -141,12 +141,20 @@
 
 // export default ResponseList;
 
-// WITH SEARCH FUNCTIONALITY
+// WITH SEARCH FUNCTIONALITY AND PAGINATION
 import { useFetchResponses } from "@/api/ResponseApi";
 import React, { useState, useMemo, useEffect } from "react";
 import { X } from "lucide-react";
+import Pagination from "@/components/Pagination";
 
-const ResponseList = ({ type, title, searchTerm }) => {
+const ResponseList = ({
+  type,
+  title,
+  searchTerm,
+  currentPage,
+  itemsPerPage,
+  onPageChange,
+}) => {
   const { data: responses, isError } = useFetchResponses();
   const [selectedResponse, setSelectedResponse] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -156,11 +164,11 @@ const ResponseList = ({ type, title, searchTerm }) => {
     if (!responses) return [];
 
     return responses
-      .sort((a, b) => new Date(b.submissionDate) - new Date(a.submissionDate)) // Sort by date
-      .filter((res) => res.formType === type) // Filter by type
+      .sort((a, b) => new Date(b.submissionDate) - new Date(a.submissionDate)) 
+      .filter((res) => res.formType === type) 
       .filter((res) => {
         // Filter by search term
-        if (!searchTerm) return true; // If no search term, show all responses
+        if (!searchTerm) return true; 
 
         // Check if any field in the response matches the search term
         return res.data.some((field) => {
@@ -169,6 +177,12 @@ const ResponseList = ({ type, title, searchTerm }) => {
         });
       });
   }, [responses, type, searchTerm]);
+
+  // Paginate the sorted responses
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedResponses = sortedResponses.slice(startIndex, endIndex);
+  const hasNextPage = endIndex < sortedResponses.length;
 
   // Show modal if no suggestions
   useEffect(() => {
@@ -233,8 +247,8 @@ const ResponseList = ({ type, title, searchTerm }) => {
 
       {/* Display Responses */}
       <div className="space-y-4">
-        {sortedResponses.length > 0 ? (
-          sortedResponses.map((response) => {
+        {paginatedResponses.length > 0 ? (
+          paginatedResponses.map((response) => {
             const responderName = getResponderName(response);
             const message =
               response.data.find((field) => field.type === "textarea")?.value ||
@@ -293,6 +307,15 @@ const ResponseList = ({ type, title, searchTerm }) => {
           </p>
         )}
       </div>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        hasNextPage={hasNextPage}
+        onPageChange={onPageChange}
+        totalItems={sortedResponses.length}
+        itemsPerPage={itemsPerPage}
+      />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function ComplaintMetrics() {
   const { data: responses, isLoading } = useFetchResponses();
-  const searchTerm = useSelector((state) => state.search.term); 
+  const searchTerm = useSelector((state) => state.search.term);
 
   if (isLoading)
     return (
@@ -21,7 +21,7 @@ function ComplaintMetrics() {
 
   // Filter complaints based on search term
   const filteredComplaints = complaints.filter((complaint) => {
-    if (!searchTerm) return true; // If no search term, return all complaints
+    if (!searchTerm) return true;
 
     // Check if any field in the complaint matches the search term
     const fieldMatch = complaint.data.some((field) =>

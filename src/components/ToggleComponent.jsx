@@ -48,14 +48,16 @@
 
 
 
-// WITH SEARCH FUNCTIONALITY
+// WITH SEARCH FUNCTIONALITY AND PAGINATION
 import ResponseList from "@/utils/ResponseList";
 import React, { useState } from "react";
-import { useSelector } from "react-redux"; 
+import { useSelector } from "react-redux";
 
 const ToggleComponent = ({ initialTab = "feedback" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
-  const searchTerm = useSelector((state) => state.search.term); 
+  const searchTerm = useSelector((state) => state.search.term);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const itemsPerPage = 6;
 
   return (
     <div className="px-4 sm:px-5 mt-4 sm:ml-0 lg:ml-56">
@@ -65,7 +67,10 @@ const ToggleComponent = ({ initialTab = "feedback" }) => {
           {["feedback", "complaint", "event", "suggestion"].map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                setCurrentPage(1); // Reset to page 1 when switching tabs
+              }}
               className={`sm:px-8 py-2 text-sm sm:text-base font-medium rounded-lg transition-all ${
                 activeTab === tab
                   ? "text-gray-700 border border-bulb-yellow"
@@ -81,16 +86,44 @@ const ToggleComponent = ({ initialTab = "feedback" }) => {
       {/* Tab Content */}
       <div className="mt-4">
         {activeTab === "feedback" && (
-          <ResponseList type="feedback" title="Feedback" searchTerm={searchTerm} />
+          <ResponseList
+            type="feedback"
+            title="Feedback"
+            searchTerm={searchTerm}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
         )}
         {activeTab === "complaint" && (
-          <ResponseList type="complaint" title="Complaints" searchTerm={searchTerm} />
+          <ResponseList
+            type="complaint"
+            title="Complaints"
+            searchTerm={searchTerm}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
         )}
         {activeTab === "event" && (
-          <ResponseList type="event" title="Event Form" searchTerm={searchTerm} />
+          <ResponseList
+            type="event"
+            title="Event Form"
+            searchTerm={searchTerm}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
         )}
         {activeTab === "suggestion" && (
-          <ResponseList type="suggestion" title="Suggestions" searchTerm={searchTerm} />
+          <ResponseList
+            type="suggestion"
+            title="Suggestions"
+            searchTerm={searchTerm}
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
         )}
       </div>
     </div>
