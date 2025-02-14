@@ -13,6 +13,7 @@ const Navbar = () => {
     "/feedbacks": "Feedback",
     "/settings": "Settings",
     "/profile": "Profile Info",
+    "/editor": "Editor"
   };
 
   const currentTitle = routeTitles[location.pathname] || "Overview";
