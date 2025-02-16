@@ -254,7 +254,7 @@ export const options = {
     y: {
       beginAtZero: true,
       ticks: {
-        stepSize: 1,
+        stepSize: 2,
       },
       grid: {
         display: true,

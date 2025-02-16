@@ -7,7 +7,7 @@ import {
 } from "@/api/ResponseApi";
 import { toast, ToastContainer } from "react-toastify";
 import FieldEditor from "./FieldEditor";
-import { Trash } from "lucide-react";
+import { Trash, Plus } from "lucide-react";
 import Spinner from "../Spinner/Spinner";
 
 const AdminFormManager = () => {
@@ -17,6 +17,9 @@ const AdminFormManager = () => {
   const { mutate: deleteForm } = useDeleteFormEvent();
 
   const [selectedForm, setSelectedForm] = useState(null);
+  const [isCreatingForm, setIsCreatingForm] = useState(false);
+  const [newFormType, setNewFormType] = useState("");
+  const [newFormTitle, setNewFormTitle] = useState("");
 
   const handleFormSelect = (form) => {
     setSelectedForm(form);
@@ -65,6 +68,42 @@ const AdminFormManager = () => {
     }
   };
 
+  const generateFourDigitId = () => {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+  };
+
+  const handleCreateForm = () => {
+    if (!newFormType.trim() || !newFormTitle.trim()) {
+      toast.error("Form type and title cannot be empty.");
+      return;
+    }
+
+    const newForm = {
+      id: generateFourDigitId(),
+      formId: generateFourDigitId(),
+      formType: newFormType,
+      title: newFormTitle,
+      eventDate: new Date().toISOString(),
+      fields: [],
+    };
+
+    saveForm(
+      { data: newForm },
+      {
+        onSuccess: () => {
+          toast.success("Form created successfully!");
+          setIsCreatingForm(false);
+          setNewFormType("");
+          setNewFormTitle("");
+          queryClient.invalidateQueries(["formEvents"]);
+        },
+        onError: () => {
+          toast.error("Failed to create the form. Please try again.");
+        },
+      }
+    );
+  };
+
   if (isLoading)
     return (
       <div className="p-4 text-center">
@@ -78,7 +117,6 @@ const AdminFormManager = () => {
 
   return (
     <div className="h-full bg-bulb-lightBlue p-4 md:p-6 lg:p-8 ml-0 md:ml-56">
-      {/* Centered h1 */}
       <div className="flex justify-center items-center mb-6">
         <h1 className="text-2xl font-bold">Admin Form Management</h1>
       </div>
@@ -86,7 +124,15 @@ const AdminFormManager = () => {
       <div className="flex flex-col md:flex-row gap-6">
         {/* Form List */}
         <div className="w-full md:w-1/4">
-          <h2 className="text-xl font-semibold mb-4">Forms</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Forms</h2>
+            <button
+              onClick={() => setIsCreatingForm(true)}
+              className="p-2 bg-bulb-yellow text-bulb-white rounded-lg hover:bg-bulb-yellow-dark"
+            >
+              <Plus size={16} />
+            </button>
+          </div>
           <ul className="space-y-2">
             {forms.map((form) => (
               <li
@@ -132,8 +178,46 @@ const AdminFormManager = () => {
             <div className="text-gray-500 text-sm">Select a form to edit.</div>
           )}
         </div>
-        <ToastContainer />
       </div>
+
+      {/* Create New Form Modal */}
+      {isCreatingForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-bulb-white p-6 rounded-lg">
+            <h2 className="text-xl font-semibold mb-4">Create New Form</h2>
+            <input
+              type="text"
+              placeholder="Form Type"
+              value={newFormType}
+              onChange={(e) => setNewFormType(e.target.value)}
+              className="w-full p-2 border rounded-lg mb-4"
+            />
+            <input
+              type="text"
+              placeholder="Form Title"
+              value={newFormTitle}
+              onChange={(e) => setNewFormTitle(e.target.value)}
+              className="w-full p-2 border rounded-lg mb-4"
+            />
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setIsCreatingForm(false)}
+                className="p-2 bg-gray-300 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreateForm}
+                className="p-2 bg-bulb-yellow text-bulb-white rounded-lg"
+              >
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <ToastContainer />
     </div>
   );
 };

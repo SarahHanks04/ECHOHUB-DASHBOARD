@@ -19,7 +19,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="bg-[#EAEAEA] lg:pl-10 px-3 lg:ml-[12rem] sm:ml-0 pb-16">
+    <div className="bg-[#EAEAEA] lg:pl-10 px-3 lg:ml-[12rem] sm:ml-0 pb-4">
       {/* Header Animation */}
       <motion.header
         className="text-2xl font-semibold text-[#171717] pt-8 sm:pt-12 mb-2"
@@ -46,7 +46,7 @@ const DashboardPage = () => {
 
           {/* Response Chart Animation */}
           <motion.div variants={gridItemVariants}>
-            <h1 className="py-1 text-[19px] font-medium">Response Chart</h1>
+            <h1 className="py-2 text-[19px] font-medium">Response Chart</h1>
             <div className="mt-3">
               <BarChart />
             </div>
@@ -54,16 +54,16 @@ const DashboardPage = () => {
 
           {/* Event Summary Animation */}
           <motion.div variants={gridItemVariants}>
-            <div className="mt-2">
-              <p className="py-3 text-[19px] font-medium">Event Summary</p>
+            <div className="mt-4">
+              <p className="py-5 text-[19px] font-medium">Event Summary</p>
               <EventSummary />
             </div>
           </motion.div>
 
           {/* Complaint Summary Animation */}
           <motion.div variants={gridItemVariants}>
-            <div className="mt-2">
-              <p className="py-3 text-[19px] font-medium">Complaint Summary</p>
+            <div className="mt-4">
+              <p className="py-5 text-[19px] font-medium">Complaint Summary</p>
               <ComplaintSummary />
             </div>
           </motion.div>
