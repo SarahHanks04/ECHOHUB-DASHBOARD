@@ -122,7 +122,7 @@ const RecentCommentList = () => {
   // Determine which responses to display based on showAll state
   const displayedResponses = showAll
     ? sortedResponses
-    : sortedResponses.slice(0, 3);
+    : sortedResponses.slice(0, 4);
 
   return (
     <div className="w-full bg-bulb-white rounded-[8px] p-3">
