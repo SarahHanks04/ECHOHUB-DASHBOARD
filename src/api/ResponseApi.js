@@ -187,7 +187,7 @@ export const useSubmitResponse = () => {
 
       // Combine static user info with dynamic form fields
       const combinedFormData = {
-        ...formData, // this includes user info from UserInformation component
+        ...formData, 
         ...Object.fromEntries(
           formDetails.fields.map((field) => [
             field.id,

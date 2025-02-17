@@ -1,0 +1,6 @@
+.edit-icon {
+  width: 16px; 
+  height: 16px;
+  filter: brightness(0) saturate(100%) invert(14%) sepia(13%) saturate(1721%)
+    hue-rotate(195deg) brightness(93%) contrast(91%);
+}

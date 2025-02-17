@@ -1,4 +1,3 @@
-// SEARCH WITH X TO CLEAR
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import SearchIcon from "../../assets/Icons/SearchIcon.svg";
