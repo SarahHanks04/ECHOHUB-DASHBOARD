@@ -116,7 +116,7 @@ const AdminFormManager = () => {
     );
 
   return (
-    <div className="h-full bg-bulb-lightBlue p-4 md:p-6 lg:p-8 ml-0 md:ml-56">
+    <div className="h-full bg-bulb-lightBlue px-4 pt-[2.4rem] md:p-6 lg:p-8 ml-0 md:ml-56">
       <div className="flex justify-center items-center mb-6">
         <h1 className="text-2xl font-bold">Admin Form Management</h1>
       </div>

@@ -46,8 +46,6 @@
 
 // export default ToggleComponent;
 
-
-
 // WITH SEARCH FUNCTIONALITY AND PAGINATION
 import ResponseList from "@/utils/ResponseList";
 import React, { useState } from "react";
@@ -56,22 +54,22 @@ import { useSelector } from "react-redux";
 const ToggleComponent = ({ initialTab = "feedback" }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
   const searchTerm = useSelector((state) => state.search.term);
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
   return (
     <div className="px-4 sm:px-5 mt-4 sm:ml-0 lg:ml-56">
       {/* Tab Navigation */}
-      <div className="whitespace-nowrap scrollbar-hide border-b-2 border-bulb-yellow rounded-lg shadow-md">
+      <div className="whitespace-nowrap scrollbar-hide pt-3">
         <div className="flex space-x-5 sm:space-x-12 px-4 sm:px-4">
           {["feedback", "complaint", "event", "suggestion"].map((tab) => (
             <button
               key={tab}
               onClick={() => {
                 setActiveTab(tab);
-                setCurrentPage(1); // Reset to page 1 when switching tabs
+                setCurrentPage(1);
               }}
-              className={`sm:px-8 py-2 text-sm sm:text-base font-medium rounded-lg transition-all ${
+              className={`sm:px-8 py-1 text-sm sm:text-base font-medium rounded-xl transition-all ${
                 activeTab === tab
                   ? "text-gray-700 border border-bulb-yellow"
                   : "text-gray-700 bg-bulb-white"
