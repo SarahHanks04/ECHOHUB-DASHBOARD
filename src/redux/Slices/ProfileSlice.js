@@ -1,28 +1,78 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios"; 
+import axios from "axios";
 
-// Thunk for saving profile data to the backend
+// Save Profile Data (including image)
 export const saveProfileToBackend = createAsyncThunk(
   "profile/saveProfileToBackend",
   async (profileData, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:5000/profile", profileData);
+      const response = await axios.post(
+        "http://localhost:5000/profile",
+        profileData
+      );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data); 
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
-// Thunk for fetching profile data from the backend
+// Fetch Profile Data (including image)
 export const fetchProfile = createAsyncThunk(
   "profile/fetchProfile",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get("http://localhost:5000/profile");
-      return response.data; 
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data); 
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Upload Profile Image
+// export const uploadProfileImage = createAsyncThunk(
+//   "profile/uploadProfileImage",
+//   async (imageFile, { rejectWithValue }) => {
+//     try {
+//       const formData = new FormData();
+//       formData.append("profileImage", imageFile);
+
+//       const response = await axios.post(
+//         "http://localhost:5000/profile",
+//         formData,
+//         {
+//           headers: {
+//             "Content-Type": "multipart/form-data",
+//           },
+//         }
+//       );
+//       return response.data.imageUrl;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
+
+export const uploadProfileImage = createAsyncThunk(
+  "profile/uploadProfileImage",
+  async (imageFile, { rejectWithValue }) => {
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(imageFile);
+
+      const base64Image = await new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+
+      const response = await axios.post("http://localhost:5000/profile", {
+        profileImage: base64Image,
+      });
+
+      return response.data.profileImage; 
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -55,7 +105,7 @@ const profileSlice = createSlice({
     updatePersonalInfo(state, action) {
       state.personalInfo = {
         ...state.personalInfo,
-        ...action.payload, 
+        ...action.payload,
       };
     },
     setEditing(state, action) {
@@ -72,12 +122,12 @@ const profileSlice = createSlice({
       })
       .addCase(saveProfileToBackend.fulfilled, (state, action) => {
         state.loading = false;
-        state.personalInfo = action.payload.personalInfo; 
-        state.lastUpdated = new Date().toLocaleString(); 
+        state.personalInfo = action.payload.personalInfo;
+        state.lastUpdated = new Date().toLocaleString();
       })
       .addCase(saveProfileToBackend.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload; 
+        state.error = action.payload;
       })
 
       // Fetch Profile
@@ -87,49 +137,66 @@ const profileSlice = createSlice({
       })
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.personalInfo = action.payload.personalInfo; 
+        state.personalInfo = action.payload.personalInfo;
+        state.profileImage = action.payload.profileImage || "User2";
         state.lastUpdated = action.payload.lastUpdated;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Upload Profile Image
+      .addCase(uploadProfileImage.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(uploadProfileImage.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profileImage = action.payload;
+      })
+      .addCase(uploadProfileImage.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
 
-export const { updateProfileImage, updatePersonalInfo, setEditing } = profileSlice.actions;
+export const { updateProfileImage, updatePersonalInfo, setEditing } =
+  profileSlice.actions;
 
 export default profileSlice.reducer;
 
 
 // import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+// import axios from "axios";
 
-// // Thunk for saving profile data to the backend
+// // Save Profile Data
 // export const saveProfileToBackend = createAsyncThunk(
 //   "profile/saveProfileToBackend",
-//   async (profileData) => {
-//     const response = await fetch("http://localhost:5000/profile", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(profileData),
-//     });
-//     if (!response.ok) {
-//       throw new Error("Failed to save profile data.");
+//   async (profileData, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:5000/profile",
+//         profileData
+//       );
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
 //     }
-//     return await response.json();
 //   }
 // );
 
+// // Fetch Profile Data
 // export const fetchProfile = createAsyncThunk(
 //   "profile/fetchProfile",
-//   async () => {
-//     const response = await fetch("http://localhost:5000/profile");
-//     if (!response.ok) {
-//       throw new Error("Failed to fetch profile data.");
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get("http://localhost:5000/profile");
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
 //     }
-//     return await response.json();
 //   }
 // );
 
@@ -147,6 +214,8 @@ export default profileSlice.reducer;
 //   editing: {
 //     personalInfo: false,
 //   },
+//   loading: false,
+//   error: null,
 // };
 
 // const profileSlice = createSlice({
@@ -169,14 +238,34 @@ export default profileSlice.reducer;
 //   },
 //   extraReducers: (builder) => {
 //     builder
+//       // Save Profile
+//       .addCase(saveProfileToBackend.pending, (state) => {
+//         state.loading = true;
+//         state.error = null;
+//       })
 //       .addCase(saveProfileToBackend.fulfilled, (state, action) => {
-//         const { personalInfo } = action.payload;
-//         if (personalInfo) state.personalInfo = personalInfo;
+//         state.loading = false;
+//         state.personalInfo = action.payload.personalInfo;
 //         state.lastUpdated = new Date().toLocaleString();
 //       })
+//       .addCase(saveProfileToBackend.rejected, (state, action) => {
+//         state.loading = false;
+//         state.error = action.payload;
+//       })
+
+//       // Fetch Profile
+//       .addCase(fetchProfile.pending, (state) => {
+//         state.loading = true;
+//         state.error = null;
+//       })
 //       .addCase(fetchProfile.fulfilled, (state, action) => {
-//         const { personalInfo } = action.payload;
-//         if (personalInfo) state.personalInfo = personalInfo;
+//         state.loading = false;
+//         state.personalInfo = action.payload.personalInfo;
+//         state.lastUpdated = action.payload.lastUpdated;
+//       })
+//       .addCase(fetchProfile.rejected, (state, action) => {
+//         state.loading = false;
+//         state.error = action.payload;
 //       });
 //   },
 // });
@@ -185,4 +274,3 @@ export default profileSlice.reducer;
 //   profileSlice.actions;
 
 // export default profileSlice.reducer;
-

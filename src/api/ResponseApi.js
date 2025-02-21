@@ -61,10 +61,8 @@ export const useMutateFormEvent = () => {
   return useMutation({
     mutationFn: async ({ id, data }) => {
       if (id) {
-        // Update existing form
         return axios.put(`${BASE_URL}/formEvents/${id}`, data);
       } else {
-        // Create a new form
         return axios.post(`${BASE_URL}/formEvents`, data);
       }
     },
@@ -76,8 +74,6 @@ export const useMutateFormEvent = () => {
     },
   });
 };
-
-// NICE
 
 // export const useSubmitResponse = () => {
 //   const queryClient = useQueryClient();
@@ -258,6 +254,7 @@ export const useFetchResponsesByType = (type) => {
   });
 };
 
+// Fetch by ID
 export const useFetchResponsesById = (id) => {
   return useQuery({
     queryKey: ["responses", id],
@@ -272,6 +269,7 @@ export const useFetchResponsesById = (id) => {
   });
 };
 
+// Update response status
 export const useUpdateResponseStatus = () => {
   const queryClient = useQueryClient();
 
