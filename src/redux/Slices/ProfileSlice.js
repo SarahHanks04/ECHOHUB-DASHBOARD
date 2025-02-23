@@ -58,19 +58,10 @@ export const uploadProfileImage = createAsyncThunk(
   "profile/uploadProfileImage",
   async (imageFile, { rejectWithValue }) => {
     try {
-      const reader = new FileReader();
-      reader.readAsDataURL(imageFile);
-
-      const base64Image = await new Promise((resolve, reject) => {
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-      });
-
       const response = await axios.post("http://localhost:5000/profile", {
-        profileImage: base64Image,
+        profileImage: imageFile,
       });
-
-      return response.data.profileImage; 
+      return response.data.profileImage;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
